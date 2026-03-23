@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import traceback
 from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -22,8 +23,17 @@ def ensure_store() -> None:
 def load_messages() -> list[dict]:
     ensure_store()
     try:
-        return json.loads(MESSAGES_FILE.read_text(encoding="utf-8"))
+        raw = MESSAGES_FILE.read_text(encoding="utf-8").strip()
+        if not raw:
+            MESSAGES_FILE.write_text("[]", encoding="utf-8")
+            return []
+        data = json.loads(raw)
+        if not isinstance(data, list):
+            MESSAGES_FILE.write_text("[]", encoding="utf-8")
+            return []
+        return data
     except json.JSONDecodeError:
+        MESSAGES_FILE.write_text("[]", encoding="utf-8")
         return []
 
 
@@ -38,23 +48,44 @@ def save_messages(messages: list[dict]) -> None:
 def generate_answer(question: str) -> str:
     text = question.lower()
     keyword_pairs = [
-        (("accounting", "会计"), "她的专业基础是会计，同时也在持续探索商业、数据与创意结合的更多可能。"),
-        (("ai", "人工智能", "sora", "stable diffusion", "comfyui"), "她在 AI 动画与 AI 应用开发方面投入了不少实践，也愿意继续交流相关工具和创作经验。"),
-        (("school", "上海商学院", "business school", "毕业"), "她毕业于上海商学院，这段学习经历也塑造了她兼具商业视角与开放思维的成长方式。"),
-        (("english", "英语", "口语"), "她具备较强的英语口语表达能力，能够比较自信地和国际团队沟通。"),
-        (("career", "工作", "就业", "future", "未来"), "她相信就业是持续成长后的自然结果，也会把学习、实践与表达能力一起带进未来的发展路径里。"),
+        (
+            ("accounting",),
+            "Her background is in accounting, and she is also exploring new links between business, data, and creativity.",
+        ),
+        (
+            ("ai", "sora", "stable diffusion", "comfyui"),
+            "She has built solid hands-on experience in AI animation and AI application workflows, and she is open to discussing those tools further.",
+        ),
+        (
+            ("school", "business school", "graduate", "graduated"),
+            "She graduated from Shanghai Business School, and that experience helped shape both her business perspective and open way of thinking.",
+        ),
+        (
+            ("english", "speaking"),
+            "She has strong spoken English skills and can communicate confidently with international teams.",
+        ),
+        (
+            ("career", "job", "future"),
+            "She sees career growth as the natural result of continuous learning, practice, and long-term development.",
+        ),
     ]
 
     for keywords, answer in keyword_pairs:
         if any(keyword in text for keyword in keywords):
             return answer
 
-    return "谢谢你的留言。这个问题已经被记录下来，访客现在也能在公开留言板里看到这条问答。"
+    return "Thanks for your message. It has been saved, and visitors can now see this public Q and A on the board."
 
 
 class AppHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
+
+    def end_headers(self) -> None:
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        super().end_headers()
 
     def _send_json(self, payload: dict | list, status: HTTPStatus = HTTPStatus.OK) -> None:
         data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -64,10 +95,23 @@ class AppHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def do_OPTIONS(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path != "/api/messages":
+            self.send_response(HTTPStatus.NOT_FOUND)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
         if parsed.path == "/api/messages":
-            self._send_json(load_messages())
+            messages = load_messages()
+            print(f"[GET] /api/messages -> {len(messages)} messages")
+            self._send_json(messages)
             return
         if parsed.path == "/":
             self.path = "/index.html"
@@ -79,12 +123,27 @@ class AppHandler(SimpleHTTPRequestHandler):
             self._send_json({"error": "Not found"}, HTTPStatus.NOT_FOUND)
             return
 
-        content_length = int(self.headers.get("Content-Length", "0"))
-        raw_body = self.rfile.read(content_length)
         try:
+            content_length = int(self.headers.get("Content-Length", "0"))
+            raw_body = self.rfile.read(content_length)
+            print(f"[POST] /api/messages raw body: {raw_body!r}")
             body = json.loads(raw_body.decode("utf-8"))
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            self._send_json({"error": "Invalid JSON payload"}, HTTPStatus.BAD_REQUEST)
+            print(f"[POST] /api/messages parsed body: {body}")
+        except (json.JSONDecodeError, UnicodeDecodeError) as error:
+            print("[POST] JSON parse failed:")
+            traceback.print_exc()
+            self._send_json(
+                {"error": f"Invalid JSON payload: {error}"},
+                HTTPStatus.BAD_REQUEST,
+            )
+            return
+        except Exception as error:
+            print("[POST] Unexpected request read failure:")
+            traceback.print_exc()
+            self._send_json(
+                {"error": f"Request read failure: {error}"},
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
             return
 
         question = str(body.get("question", "")).strip()
@@ -92,16 +151,28 @@ class AppHandler(SimpleHTTPRequestHandler):
             self._send_json({"error": "Question is required"}, HTTPStatus.BAD_REQUEST)
             return
 
-        messages = load_messages()
-        entry = {
-            "id": len(messages) + 1,
-            "question": question,
-            "answer": generate_answer(question),
-            "created_at": datetime.now(timezone.utc).isoformat(),
-        }
-        messages.insert(0, entry)
-        save_messages(messages)
-        self._send_json(entry, HTTPStatus.CREATED)
+        try:
+            messages = load_messages()
+            entry = {
+                "id": len(messages) + 1,
+                "question": question,
+                "answer": generate_answer(question),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            }
+            messages.insert(0, entry)
+            save_messages(messages)
+            print(f"[POST] saved message #{entry['id']} to {MESSAGES_FILE}")
+            self._send_json(
+                {"success": True, "entry": entry, "count": len(messages)},
+                HTTPStatus.CREATED,
+            )
+        except Exception as error:
+            print("[POST] Save failure:")
+            traceback.print_exc()
+            self._send_json(
+                {"error": f"Save failure: {error}"},
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
 
 
 def main() -> None:

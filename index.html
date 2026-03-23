@@ -1517,6 +1517,18 @@
     const boardPreviewEmpty = document.getElementById("boardPreviewEmpty");
     const boardModalList = document.getElementById("boardModalList");
     let publicMessages = [];
+    const API_URL = (() => {
+      const host = window.location.hostname;
+      const isLocal = host === "127.0.0.1" || host === "localhost" || window.location.protocol === "file:";
+      if (isLocal && window.location.port && window.location.port !== "8000") {
+        return "http://127.0.0.1:8000/api/messages";
+      }
+      if (window.location.protocol === "file:") {
+        return "http://127.0.0.1:8000/api/messages";
+      }
+      return `${window.location.origin}/api/messages`;
+    })();
+    console.log("[message-board] API_URL =", API_URL);
 
     const modalVisuals = {
       1: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='55%' stop-color='%23233963'/><stop offset='100%' stop-color='%23090d16'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m1)'/><circle cx='270' cy='200' r='180' fill='%23ffffff' opacity='0.12'/><rect x='460' y='170' width='520' height='110' rx='22' fill='%23ffffff' opacity='0.14'/><rect x='150' y='420' width='900' height='260' rx='34' fill='%23ffffff' opacity='0.08'/></svg>",
@@ -1624,13 +1636,19 @@
     };
     const loadMessages = async () => {
       try {
-        const response = await fetch("/api/messages");
-        if (!response.ok) throw new Error("load failed");
-        publicMessages = await response.json();
+        console.log("[message-board] GET", API_URL);
+        const response = await fetch(API_URL);
+        const payload = await response.json();
+        console.log("[message-board] GET response", response.status, payload);
+        if (!response.ok) {
+          throw new Error(payload?.error || `Load failed with status ${response.status}`);
+        }
+        publicMessages = Array.isArray(payload) ? payload : payload.entry ? [payload.entry] : [];
         renderMessages();
       } catch (error) {
+        console.error("[message-board] GET failed", error);
         boardPreviewEmpty.style.display = "";
-        boardPreviewEmpty.textContent = translations[currentLang].boardError;
+        boardPreviewEmpty.textContent = error?.message || translations[currentLang].boardError;
         boardModalList.innerHTML = "";
       }
     };
@@ -1663,20 +1681,27 @@
       if (!question) return;
       boardStatus.textContent = translations[currentLang].boardSaving;
       try {
-        const response = await fetch("/api/messages", {
+        const payload = { question };
+        console.log("[message-board] POST", API_URL, payload);
+        const response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question }),
+          body: JSON.stringify(payload),
         });
-        if (!response.ok) throw new Error("save failed");
-        const saved = await response.json();
+        const result = await response.json();
+        console.log("[message-board] POST response", response.status, result);
+        if (!response.ok) {
+          throw new Error(result?.error || `Save failed with status ${response.status}`);
+        }
+        const saved = result?.entry || result;
         publicMessages.unshift(saved);
         renderMessages();
         boardQuestion.value = "";
         boardStatus.textContent = translations[currentLang].boardStatus;
         hideBoardModal();
       } catch (error) {
-        boardStatus.textContent = translations[currentLang].boardError;
+        console.error("[message-board] POST failed", error);
+        boardStatus.textContent = error?.message || translations[currentLang].boardError;
       }
     });
     modal.addEventListener("click", (event) => {
