@@ -99,15 +99,38 @@
       place-items: center;
       margin: 0;
       opacity: 0;
-      color: #fff;
-      transform: scale(0.9);
+      transform: scale(0.86);
       font-family: var(--title-font);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      text-shadow: 0 0 36px rgba(255,255,255,0.1);
+      letter-spacing: 0.1em;
+      filter: blur(6px);
+      color: transparent;
     }
-    .intro-line.name { font-size: clamp(2.8rem, 9vw, 7rem); animation: introName 3.6s ease forwards; }
-    .intro-line.welcome { font-size: clamp(1.4rem, 3.6vw, 3rem); animation: introWelcome 3.2s ease forwards; animation-delay: 3s; }
+    .intro-line.name {
+      font-size: clamp(3rem, 9.5vw, 7.4rem);
+      letter-spacing: 0.14em;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.02) 18%, rgba(255,255,255,0.9) 42%, rgba(214,214,214,0.35) 50%, rgba(255,255,255,0.92) 58%, rgba(255,255,255,0.02) 82%);
+      background-size: 240% 100%;
+      background-position: 130% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1.15px rgba(255,255,255,0.52);
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.06),
+        0 0 22px rgba(255,255,255,0.08);
+      animation: introName 3.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .intro-line.welcome {
+      font-size: clamp(1.5rem, 3.8vw, 3.1rem);
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.94);
+      text-shadow:
+        0 0 14px rgba(255,255,255,0.12),
+        0 0 32px rgba(255,255,255,0.06);
+      animation: introWelcome 2.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 2.05s;
+    }
     .page-shell {
       width: min(calc(100% - 28px), var(--layout-width));
       margin: 0 auto;
@@ -351,14 +374,98 @@
       font: inherit;
     }
     @keyframes introName {
-      0% { opacity: 0; transform: scale(0.82); }
-      18%, 58% { opacity: 1; transform: scale(1.03); }
-      100% { opacity: 0; transform: scale(1.16); }
+      0% {
+        opacity: 0;
+        transform: scale(0.68);
+        filter: blur(14px);
+        background-position: 150% 50%;
+        -webkit-text-stroke-color: rgba(255,255,255,0.14);
+        text-shadow:
+          0 0 0 rgba(255,255,255,0),
+          0 0 0 rgba(255,255,255,0);
+      }
+      16% {
+        opacity: 0.78;
+        transform: scale(0.9);
+        filter: blur(4px);
+        background-position: 135% 50%;
+        -webkit-text-stroke-color: rgba(255,255,255,0.34);
+      }
+      34% {
+        opacity: 0.96;
+        transform: scale(0.98);
+        filter: blur(1.8px);
+        background-position: 102% 50%;
+        -webkit-text-stroke-color: rgba(255,255,255,0.56);
+        text-shadow:
+          0 0 12px rgba(255,255,255,0.12),
+          0 0 28px rgba(255,255,255,0.1);
+      }
+      48% {
+        opacity: 1;
+        transform: scale(1.03);
+        filter: blur(0);
+        background-position: 64% 50%;
+        -webkit-text-stroke-color: rgba(255,255,255,0.68);
+        text-shadow:
+          0 0 14px rgba(255,255,255,0.16),
+          0 0 34px rgba(255,255,255,0.12),
+          0 0 72px rgba(255,255,255,0.08);
+      }
+      58% {
+        opacity: 0.95;
+        transform: scale(1.02);
+        filter: blur(0.4px);
+        background-position: 52% 50%;
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.045);
+        filter: blur(0);
+        background-position: 38% 50%;
+        text-shadow:
+          0 0 16px rgba(255,255,255,0.18),
+          0 0 40px rgba(255,255,255,0.14),
+          0 0 84px rgba(255,255,255,0.08);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.16);
+        filter: blur(10px);
+        background-position: -10% 50%;
+        -webkit-text-stroke-color: rgba(255,255,255,0.08);
+        text-shadow:
+          0 0 28px rgba(255,255,255,0.08),
+          0 0 56px rgba(255,255,255,0.04);
+      }
     }
     @keyframes introWelcome {
-      0%, 16% { opacity: 0; transform: scale(0.92); }
-      42%, 72% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1.08); }
+      0%, 10% {
+        opacity: 0;
+        transform: scale(0.94);
+        filter: blur(10px);
+      }
+      24% {
+        opacity: 0.82;
+        transform: scale(0.98);
+        filter: blur(3px);
+        text-shadow:
+          0 0 18px rgba(255,255,255,0.12),
+          0 0 40px rgba(255,255,255,0.08);
+      }
+      40%, 60% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+        text-shadow:
+          0 0 16px rgba(255,255,255,0.16),
+          0 0 34px rgba(255,255,255,0.1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.08);
+        filter: blur(8px);
+      }
     }
     @keyframes drift {
       from { transform: translate3d(-2%, -1%, 0) scale(1); }
@@ -391,7 +498,7 @@
   <div class="intro-screen" id="introScreen" aria-hidden="true">
     <button class="intro-skip" id="introSkip" type="button">Skip</button>
     <div class="intro-sequence">
-      <p class="intro-line name">Zhang Yiyang</p>
+      <p class="intro-line name">ZHANG YIYANG</p>
       <p class="intro-line welcome">Welcome to my website</p>
     </div>
   </div>
@@ -531,6 +638,69 @@
     const pageShell = document.getElementById("pageShell");
     const introSkip = document.getElementById("introSkip");
     let introDismissed = false;
+    let introSoundPlayed = false;
+    let audioCtx;
+
+    const getAudioContext = () => {
+      const AudioCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtor) return null;
+      if (!audioCtx) audioCtx = new AudioCtor();
+      return audioCtx;
+    };
+
+    const playTone = (ctx, frequency, start, duration, gainValue, type = "sine", detune = 0) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(frequency, start);
+      osc.detune.setValueAtTime(detune, start);
+      osc.frequency.exponentialRampToValueAtTime(frequency * 1.015, start + duration);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + duration + 0.02);
+    };
+
+    const playShimmer = (ctx, frequency, start, duration, gainValue) => {
+      playTone(ctx, frequency, start, duration, gainValue, "triangle", -4);
+      playTone(ctx, frequency * 2, start + 0.015, duration * 0.72, gainValue * 0.42, "sine", 3);
+      playTone(ctx, frequency * 3.01, start + 0.03, duration * 0.38, gainValue * 0.18, "sine", -2);
+    };
+
+    const playIntroSound = async () => {
+      if (introSoundPlayed) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      try {
+        if (ctx.state === "suspended") {
+          await ctx.resume();
+        }
+      } catch (error) {
+        return;
+      }
+      const now = ctx.currentTime + 0.04;
+      playShimmer(ctx, 783.99, now, 1.65, 0.02);
+      playShimmer(ctx, 1174.66, now + 0.08, 1.28, 0.012);
+      playTone(ctx, 1567.98, now + 0.16, 0.82, 0.005, "sine", 5);
+      playTone(ctx, 1046.5, now + 0.22, 1.55, 0.009, "triangle", -3);
+      playTone(ctx, 2093, now + 0.28, 0.55, 0.0035, "sine", 2);
+      introSoundPlayed = true;
+    };
+
+    const primeIntroSound = () => {
+      playIntroSound();
+      window.removeEventListener("pointerdown", primeIntroSound);
+      window.removeEventListener("keydown", primeIntroSound);
+    };
+
+    window.addEventListener("pointerdown", primeIntroSound, { once: true });
+    window.addEventListener("keydown", primeIntroSound, { once: true });
+    setTimeout(() => {
+      playIntroSound();
+    }, 180);
 
     const dismissIntro = () => {
       if (introDismissed) return;
@@ -541,7 +711,7 @@
 
     setTimeout(() => {
       dismissIntro();
-    }, 6100);
+    }, 5000);
 
     introSkip.addEventListener("click", dismissIntro);
 
