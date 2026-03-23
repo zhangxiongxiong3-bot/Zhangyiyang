@@ -533,6 +533,24 @@
       display: grid;
       gap: 12px;
     }
+    .board-preview-actions {
+      display: flex;
+      justify-content: center;
+    }
+    .board-toggle {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .board-toggle:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-2px);
+    }
     .message-card {
       padding: 16px;
       border-radius: 20px;
@@ -637,6 +655,7 @@
       background: rgba(0,0,0,0.72);
       opacity: 0;
       visibility: hidden;
+      overflow-y: auto;
       transition: opacity 0.35s ease, visibility 0.35s ease;
     }
     .section-modal.open {
@@ -645,6 +664,7 @@
     }
     .section-modal-panel {
       width: min(780px, 100%);
+      max-height: calc(100vh - 40px);
       padding: 28px;
       border-radius: 28px;
       border: 1px solid var(--line);
@@ -653,6 +673,7 @@
       display: grid;
       gap: 16px;
       position: relative;
+      overflow-y: auto;
     }
     .section-modal-panel h3,
     .section-modal-panel p {
@@ -944,13 +965,16 @@
             <button class="panel-link" id="introPanelLink" type="button">Open Section</button>
           </div>
           <div class="board-preview" id="boardPreview">
-            <div class="board-preview-head">
-              <h3 id="boardPreviewTitle">Public Message Board</h3>
-              <span class="panel-note" id="boardPreviewNote">All visitors can read the full Q&A</span>
-            </div>
-            <p class="board-preview-empty" id="boardPreviewEmpty">No messages yet. Click “Open Section” to leave the first public question.</p>
-            <div class="message-list" id="boardPreviewList"></div>
+          <div class="board-preview-head">
+            <h3 id="boardPreviewTitle">Public Message Board</h3>
+            <span class="panel-note" id="boardPreviewNote">All visitors can read the full Q&A</span>
           </div>
+          <p class="board-preview-empty" id="boardPreviewEmpty">No messages yet. Click “Open Section” to leave the first public question.</p>
+          <div class="message-list" id="boardPreviewList"></div>
+          <div class="board-preview-actions">
+            <button class="board-toggle" id="boardToggle" type="button" style="display:none;">展开评论</button>
+          </div>
+        </div>
         </section>
         <section class="content-section section-portfolio reveal interactive-panel" id="portfolio" data-section="portfolio">
           <p class="panel-ink" id="panelInkPortfolio">藏</p>
@@ -1148,6 +1172,8 @@
         boardPreviewTitle: "Public Message Board",
         boardPreviewNote: "All visitors can read the full Q&A",
         boardPreviewEmpty: "No messages yet. Click “Open Section” to leave the first public question.",
+        boardExpand: "Show More Comments",
+        boardCollapse: "Collapse Comments",
         boardModalEyebrow: "Public Board",
         boardModalTitle: "Leave a Public Message",
         boardModalDescription: "Ask a question or leave a note here. Your message and reply will be saved and visible to all visitors.",
@@ -1231,6 +1257,8 @@
         boardPreviewTitle: "公开留言板",
         boardPreviewNote: "所有访客都可以浏览完整问答",
         boardPreviewEmpty: "暂时还没有留言。点击“查看内容”留下第一条公开问题吧。",
+        boardExpand: "展开评论",
+        boardCollapse: "收起评论",
         boardModalEyebrow: "公开留言",
         boardModalTitle: "留下你的问题或留言",
         boardModalDescription: "你可以在这里提出问题或留下想说的话。留言与回复都会保存到后端，并向所有访客公开显示。",
@@ -1412,6 +1440,7 @@
       setText("boardPreviewTitle", t.boardPreviewTitle);
       setText("boardPreviewNote", t.boardPreviewNote);
       setText("boardPreviewEmpty", t.boardPreviewEmpty);
+      setText("boardToggle", boardExpanded ? t.boardCollapse : t.boardExpand);
       setText("boardModalEyebrow", t.boardModalEyebrow);
       setText("boardModalTitle", t.boardModalTitle);
       setText("boardModalDescription", t.boardModalDescription);
@@ -1532,7 +1561,9 @@
     const boardPreviewList = document.getElementById("boardPreviewList");
     const boardPreviewEmpty = document.getElementById("boardPreviewEmpty");
     const boardModalList = document.getElementById("boardModalList");
+    const boardToggle = document.getElementById("boardToggle");
     let publicMessages = [];
+    let boardExpanded = false;
     const API_URL = (() => {
       const host = window.location.hostname;
       const isLocal = host === "127.0.0.1" || host === "localhost" || window.location.protocol === "file:";
@@ -1650,9 +1681,12 @@
     };
     const renderMessages = () => {
       const hasMessages = publicMessages.length > 0;
+      const previewMessages = boardExpanded ? publicMessages : publicMessages.slice(0, 2);
       boardPreviewEmpty.style.display = hasMessages ? "none" : "";
-      boardPreviewList.innerHTML = hasMessages ? publicMessages.map(renderMessageCard).join("") : "";
+      boardPreviewList.innerHTML = hasMessages ? previewMessages.map(renderMessageCard).join("") : "";
       boardModalList.innerHTML = hasMessages ? publicMessages.map(renderMessageCard).join("") : "";
+      boardToggle.style.display = publicMessages.length > 2 ? "" : "none";
+      boardToggle.textContent = translations[currentLang][boardExpanded ? "boardCollapse" : "boardExpand"];
     };
     const loadMessages = async () => {
       try {
@@ -1695,6 +1729,10 @@
     closeModal.addEventListener("click", hideModal);
     sectionModalClose.addEventListener("click", hideSectionModal);
     boardModalClose.addEventListener("click", hideBoardModal);
+    boardToggle.addEventListener("click", () => {
+      boardExpanded = !boardExpanded;
+      renderMessages();
+    });
     boardForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const question = boardQuestion.value.trim();
