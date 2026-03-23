@@ -419,21 +419,6 @@
     .intro-visual { position: relative; min-height: 440px; border-radius: 24px; }
     .intro-visual img { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: opacity 0.8s ease, transform 1.2s ease; }
     .intro-visual img.active { opacity: 1; transform: scale(1); }
-    .intro-caption {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      z-index: 1;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(0,0,0,0.46);
-      color: #fff;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      backdrop-filter: blur(12px);
-    }
     .intro-progress { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
     .intro-progress button {
       width: 10px;
@@ -937,7 +922,6 @@
                 <img alt="Introduction image 4" data-caption="Cultural Moment" src="./image/Personal%20Introduction/PHOTO-5.jpg" />
                 <img alt="Introduction image 5" data-caption="Open Landscape" src="./image/Personal%20Introduction/PHOTO-6.jpg" />
                 <img alt="Introduction image 6" data-caption="Floral Scene" src="./image/Personal%20Introduction/PHOTO-7.jpg" />
-                <div class="intro-caption" id="introCaption">City Evening</div>
               </div>
             </div>
           </div>
@@ -1474,7 +1458,6 @@
 
     const introSection = document.getElementById("introduction");
     const introImages = Array.from(document.querySelectorAll("#introVisual img"));
-    const introCaption = document.getElementById("introCaption");
     const introProgress = document.getElementById("introProgress");
     let introIndex = 0;
     let introTimer = null;
@@ -1482,7 +1465,6 @@
     const updateIntroVisual = (nextIndex) => {
       introIndex = nextIndex;
       introImages.forEach((img, index) => img.classList.toggle("active", index === introIndex));
-      introCaption.textContent = introImages[introIndex].dataset.caption;
       introProgress.querySelectorAll("button").forEach((button, index) => button.classList.toggle("active", index === introIndex));
     };
 
