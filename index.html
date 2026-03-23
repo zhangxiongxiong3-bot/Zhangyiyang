@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,704 +6,584 @@
   <title>Zhang Yiyang</title>
   <style>
     :root {
-      --bg: #050505;
-      --bg-soft: rgba(255, 255, 255, 0.04);
-      --panel: rgba(255, 255, 255, 0.07);
-      --panel-strong: rgba(255, 255, 255, 0.12);
-      --text: #f5f5f0;
-      --muted: rgba(245, 245, 240, 0.66);
+      --bg: #040404;
+      --text: #f6f4ef;
+      --muted: rgba(246, 244, 239, 0.68);
       --line: rgba(255, 255, 255, 0.12);
-      --accent: #d6d1c4;
+      --accent: #ddd5c5;
       --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
       --radius: 28px;
-      --max-width: 1160px;
       --title-font: "Georgia", "Times New Roman", serif;
       --body-font: "Segoe UI", "Helvetica Neue", sans-serif;
+      --sidebar-width: 360px;
+      --layout-width: 1320px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 28%),
-        radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.06), transparent 30%),
-        radial-gradient(circle at 50% 82%, rgba(214, 209, 196, 0.09), transparent 36%),
-        var(--bg);
       font-family: var(--body-font);
+      color: var(--text);
       overflow-x: hidden;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.08), transparent 24%),
+        radial-gradient(circle at 82% 22%, rgba(221,213,197,0.08), transparent 30%),
+        radial-gradient(circle at 50% 88%, rgba(255,255,255,0.06), transparent 28%),
+        linear-gradient(180deg, #030303 0%, #060606 100%);
     }
-
     body::before,
     body::after {
       content: "";
       position: fixed;
-      inset: -20vmax;
-      pointer-events: none;
+      inset: -16vmax;
       z-index: -2;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.045), transparent 20%),
-        radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.032), transparent 24%),
-        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.025), transparent 18%);
+      pointer-events: none;
+      filter: blur(16px);
       animation: drift 18s ease-in-out infinite alternate;
-      filter: blur(10px);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), transparent 20%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,0.025), transparent 22%),
+        radial-gradient(circle at 46% 74%, rgba(221,213,197,0.06), transparent 26%);
     }
-
-    body::after {
-      animation-duration: 28s;
-      animation-direction: alternate-reverse;
-      opacity: 0.7;
-    }
-
+    body::after { animation-duration: 26s; animation-direction: alternate-reverse; }
     .grain {
       position: fixed;
       inset: 0;
-      pointer-events: none;
       z-index: -1;
-      opacity: 0.1;
+      opacity: 0.08;
+      pointer-events: none;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(circle at center, black 28%, transparent 90%);
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 92%);
     }
-
     .intro-screen {
       position: fixed;
       inset: 0;
       display: grid;
       place-items: center;
-      background: rgba(0, 0, 0, 0.94);
+      background: rgba(0,0,0,0.95);
       z-index: 20;
       transition: opacity 1s ease, visibility 1s ease;
     }
-
-    .intro-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .intro-sequence {
-      position: relative;
-      width: min(92vw, 1100px);
-      min-height: 180px;
-      text-align: center;
-    }
-
+    .intro-screen.hidden { opacity: 0; visibility: hidden; }
+    .intro-sequence { position: relative; width: min(92vw, 1100px); min-height: 180px; text-align: center; }
     .intro-line {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
       margin: 0;
-      font-family: var(--title-font);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      opacity: 0;
       color: #fff;
-      opacity: 0;
       transform: scale(0.9);
-      text-shadow: 0 0 32px rgba(255, 255, 255, 0.1);
+      font-family: var(--title-font);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 36px rgba(255,255,255,0.1);
     }
-
-    .intro-line.name {
-      font-size: clamp(2.8rem, 9vw, 7rem);
-      animation: introName 3.6s ease forwards;
-    }
-
-    .intro-line.welcome {
-      font-size: clamp(1.6rem, 4vw, 3rem);
-      animation: introWelcome 3.2s ease forwards;
-      animation-delay: 3s;
-    }
-
+    .intro-line.name { font-size: clamp(2.8rem, 9vw, 7rem); animation: introName 3.6s ease forwards; }
+    .intro-line.welcome { font-size: clamp(1.4rem, 3.6vw, 3rem); animation: introWelcome 3.2s ease forwards; animation-delay: 3s; }
     .page-shell {
-      width: min(calc(100% - 32px), var(--max-width));
+      width: min(calc(100% - 28px), var(--layout-width));
       margin: 0 auto;
-      padding: 42px 0 72px;
+      padding: 28px 0 60px;
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(26px);
       transition: opacity 1s ease, transform 1s ease;
     }
-
-    .page-shell.ready {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hero-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: minmax(260px, 360px) 1fr;
-      gap: 32px;
-      align-items: center;
-      min-height: 78vh;
-      padding: 36px;
+    .page-shell.ready { opacity: 1; transform: translateY(0); }
+    .site-layout { display: grid; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); gap: 28px; align-items: start; }
+    .sidebar { position: sticky; top: 20px; height: calc(100vh - 40px); display: flex; }
+    .profile-card,
+    .hero-section,
+    .content-section,
+    .modal-panel {
       border: 1px solid var(--line);
-      border-radius: calc(var(--radius) + 8px);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
       box-shadow: var(--shadow);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    }
+    .profile-card {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+      border-radius: calc(var(--radius) + 4px);
       overflow: hidden;
     }
-
-    .hero-card::before {
+    .profile-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(125deg, rgba(255, 255, 255, 0.08), transparent 36%),
-        radial-gradient(circle at top right, rgba(214, 209, 196, 0.12), transparent 32%);
       pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 40%),
+        radial-gradient(circle at top right, rgba(221,213,197,0.12), transparent 34%);
     }
-
-    .portrait-panel {
-      position: relative;
-      z-index: 1;
-      border-radius: 24px;
-      overflow: hidden;
-      aspect-ratio: 4 / 5;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: #111;
-      min-height: 420px;
-    }
-
-    .portrait-panel img,
-    .carousel-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .hero-copy {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 18px;
-    }
-
     .eyebrow {
+      position: relative;
+      z-index: 1;
       width: fit-content;
       padding: 8px 12px;
-      font-size: 0.82rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.8rem;
       letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      backdrop-filter: blur(12px);
-    }
-
-    h1, h2, h3, p {
-      margin: 0;
-    }
-
-    .hero-copy h1 {
-      font-family: var(--title-font);
-      font-size: clamp(2.8rem, 6vw, 5.4rem);
-      line-height: 0.98;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .hero-copy p {
-      max-width: 620px;
-      font-size: 1.02rem;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-
-    .quick-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      padding-top: 6px;
-    }
-
-    .quick-info span {
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: var(--bg-soft);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text);
-      font-size: 0.94rem;
-    }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      margin-top: 28px;
-    }
-
-    .section-card {
-      position: relative;
-      padding: 28px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      min-height: 320px;
-    }
-
-    .section-card::after {
-      content: "";
-      position: absolute;
-      inset: auto -60px -80px auto;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    .section-card h2 {
-      margin-bottom: 16px;
-      font-family: var(--title-font);
-      font-size: 1.9rem;
-      letter-spacing: 0.03em;
-    }
-
-    .section-card p,
-    .section-card li,
-    .social-links a {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 0.98rem;
-    }
-
-    .section-card ul {
-      margin: 0;
-      padding-left: 18px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .carousel {
-      margin-top: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .carousel-image {
-      position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      aspect-ratio: 16 / 10;
-      background: #0d0d0d;
-    }
-
-    .carousel-track {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s ease;
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
-    .carousel-slide::after {
-      content: attr(data-caption);
-      position: absolute;
-      left: 18px;
-      bottom: 16px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.48);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      font-size: 0.84rem;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
       backdrop-filter: blur(10px);
     }
-
-    .carousel-dots {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
+    .sticky-photo,
+    .intro-visual,
+    .portfolio-thumb,
+    .modal-image {
+      overflow: hidden;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.12);
     }
-
-    .carousel-dots button {
+    .sticky-photo { position: relative; z-index: 1; flex: 1; min-height: 0; border-radius: 24px; }
+    .sticky-photo img,
+    .intro-visual img,
+    .portfolio-thumb img,
+    .modal-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .profile-meta,
+    .hero-inner,
+    .section-copy,
+    .modal-copy { position: relative; z-index: 1; display: grid; gap: 16px; }
+    .profile-meta { gap: 10px; }
+    .profile-meta h1,
+    .section-copy h2,
+    .modal-copy h3 { margin: 0; font-family: var(--title-font); }
+    .profile-meta h1 { font-size: clamp(2.2rem, 3vw, 3rem); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.02; }
+    .profile-meta p,
+    .section-copy p,
+    .personality-list li,
+    .honor-list li,
+    .social-item span,
+    .modal-copy p,
+    .portfolio-card p { margin: 0; color: var(--muted); line-height: 1.8; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .profile-tags span {
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      font-size: 0.9rem;
+    }
+    .main-content { display: grid; gap: 28px; }
+    .hero-section,
+    .content-section {
+      position: relative;
+      padding: 34px;
+      border-radius: calc(var(--radius) + 2px);
+      overflow: hidden;
+    }
+    .hero-section::after,
+    .content-section::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 72%);
+      pointer-events: none;
+    }
+    .hero-section { min-height: calc(100vh - 40px); display: flex; align-items: end; }
+    .hero-inner { max-width: 760px; gap: 18px; }
+    .hero-inner h2 {
+      margin: 0;
+      font-family: var(--title-font);
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .hero-inner p { margin: 0; max-width: 680px; color: var(--muted); font-size: 1.02rem; line-height: 1.9; }
+    .hero-nav { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px; }
+    .hero-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.04);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero-nav a:hover { transform: translateY(-3px); background: rgba(255,255,255,0.08); }
+    .section-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); gap: 24px; align-items: center; }
+    .section-copy h2,
+    .modal-copy h3 { font-size: 2rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .personality-list,
+    .honor-list { margin: 0; padding-left: 18px; display: grid; gap: 10px; }
+    .intro-visual { position: relative; min-height: 440px; border-radius: 24px; }
+    .intro-visual img { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: opacity 0.8s ease, transform 1.2s ease; }
+    .intro-visual img.active { opacity: 1; transform: scale(1); }
+    .intro-caption {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      z-index: 1;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.46);
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      backdrop-filter: blur(12px);
+    }
+    .intro-progress { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+    .intro-progress button {
       width: 10px;
       height: 10px;
-      border-radius: 50%;
       border: none;
-      background: rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
       padding: 0;
       cursor: pointer;
       transition: transform 0.3s ease, background 0.3s ease;
     }
-
-    .carousel-dots button.active {
-      transform: scale(1.35);
-      background: #fff;
-    }
-
-    .portfolio-grid {
+    .intro-progress button.active { transform: scale(1.35); background: #fff; }
+    .portfolio-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+    .portfolio-card {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 18px;
-    }
-
-    .portfolio-item {
       padding: 18px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: transform 0.35s ease, border-color 0.35s ease;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
     }
-
-    .portfolio-item:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .portfolio-item h3 {
-      margin-bottom: 8px;
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .honor-list li strong,
-    .social-links a {
-      color: var(--text);
-    }
-
-    .social-links {
-      margin-top: 18px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .social-links a {
+    .portfolio-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); }
+    .portfolio-thumb { aspect-ratio: 16 / 11; border-radius: 18px; }
+    .portfolio-card h3 { margin: 0; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .portfolio-card small { color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; }
+    .social-list { display: grid; gap: 12px; margin-top: 14px; }
+    .social-item {
       text-decoration: none;
+      color: var(--text);
       display: flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
       padding: 14px 16px;
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: transform 0.35s ease, background 0.35s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-
-    .social-links a:hover {
-      transform: translateX(6px);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .social-links small {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .section-card.reveal {
+    .social-item:hover { transform: translateX(6px); background: rgba(255,255,255,0.07); }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .portfolio-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.72);
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
     }
-
-    .section-card.reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .portfolio-modal.open { opacity: 1; visibility: visible; }
+    .modal-panel {
+      width: min(920px, 100%);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+      gap: 22px;
+      padding: 22px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(20,20,20,0.96), rgba(14,14,14,0.96));
     }
-
+    .modal-image { min-height: 360px; border-radius: 22px; }
+    .modal-actions { display: flex; gap: 10px; padding-top: 6px; }
+    .modal-actions button {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      font: inherit;
+    }
     @keyframes introName {
-      0% {
-        opacity: 0;
-        transform: scale(0.82);
-      }
-      18%,
-      58% {
-        opacity: 1;
-        transform: scale(1.03);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1.16);
-      }
+      0% { opacity: 0; transform: scale(0.82); }
+      18%, 58% { opacity: 1; transform: scale(1.03); }
+      100% { opacity: 0; transform: scale(1.16); }
     }
-
     @keyframes introWelcome {
-      0%,
-      16% {
-        opacity: 0;
-        transform: scale(0.92);
-      }
-      42%,
-      72% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1.08);
-      }
+      0%, 16% { opacity: 0; transform: scale(0.92); }
+      42%, 72% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.08); }
     }
-
     @keyframes drift {
-      from {
-        transform: translate3d(-2%, -1%, 0) scale(1);
-      }
-      to {
-        transform: translate3d(2%, 1%, 0) scale(1.08);
-      }
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to { transform: translate3d(2%, 1%, 0) scale(1.08); }
     }
-
-    @media (max-width: 920px) {
-      .hero-card,
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .portrait-panel {
-        max-width: 420px;
-      }
-
-      .hero-card {
-        min-height: auto;
-      }
+    @media (max-width: 1080px) {
+      .site-layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: 0; height: auto; }
+      .sticky-photo { min-height: 460px; }
     }
-
+    @media (max-width: 820px) {
+      .section-grid,
+      .modal-panel,
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .hero-section { min-height: auto; }
+      .hero-inner h2 { font-size: clamp(2.6rem, 12vw, 4rem); }
+    }
     @media (max-width: 640px) {
-      .page-shell {
-        width: min(calc(100% - 20px), var(--max-width));
-        padding-top: 24px;
-      }
-
-      .hero-card,
-      .section-card {
-        padding: 20px;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-copy h1 {
-        font-size: clamp(2.4rem, 14vw, 3.8rem);
-      }
+      .page-shell { width: min(calc(100% - 18px), var(--layout-width)); padding-top: 18px; }
+      .hero-section,
+      .content-section,
+      .profile-card { padding: 20px; }
+      .sticky-photo,
+      .intro-visual { min-height: 380px; }
     }
   </style>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
-
   <div class="intro-screen" id="introScreen" aria-hidden="true">
     <div class="intro-sequence">
       <p class="intro-line name">Zhang Yiyang</p>
       <p class="intro-line welcome">Welcome to my website</p>
     </div>
   </div>
-
   <main class="page-shell" id="pageShell">
-    <section class="hero-card">
-      <div class="portrait-panel">
-        <img
-          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23040404'/><stop offset='55%' stop-color='%23111111'/><stop offset='100%' stop-color='%23222222'/></linearGradient><radialGradient id='glow' cx='50%' cy='28%' r='48%'><stop offset='0%' stop-color='%23ffffff' stop-opacity='0.22'/><stop offset='100%' stop-color='%23ffffff' stop-opacity='0'/></radialGradient></defs><rect width='800' height='1000' fill='url(%23bg)'/><rect width='800' height='1000' fill='url(%23glow)'/><circle cx='400' cy='280' r='122' fill='%23d7d0c1'/><path d='M242 812c18-162 114-244 158-244s139 82 158 244' fill='%23ebe5d8' opacity='0.9'/><path d='M275 284c18-120 79-180 125-180 62 0 118 74 128 176-42-34-82-48-131-48-49 0-89 14-122 52z' fill='%23131313'/><path d='M242 812c28-120 104-182 158-182s130 62 158 182' fill='none' stroke='%23ffffff' stroke-opacity='0.28' stroke-width='2'/></svg>"
-          alt="Portrait of Zhang Yiyang"
-        />
-      </div>
-
-      <div class="hero-copy">
-        <span class="eyebrow">Personal Card</span>
-        <h1>Zhang<br />Yiyang</h1>
-        <p>
-          A minimal personal space shaped by motion, clarity, and calm contrast.
-          This homepage opens with a cinematic introduction and settles into a
-          refined portfolio layout designed to feel modern, quiet, and memorable.
-        </p>
-        <div class="quick-info">
-          <span>Personal Introduction</span>
-          <span>Portfolio Selection</span>
-          <span>Honors & Recognition</span>
-          <span>Social Presence</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="content-grid">
-      <article class="section-card reveal">
-        <span class="eyebrow">Section 01</span>
-        <h2>About Me</h2>
-        <p>
-          I value elegant structure, clear storytelling, and thoughtful visual
-          rhythm. This space introduces my background through concise writing and
-          a separate photo carousel that adds warmth without breaking the clean,
-          premium look of the page.
-        </p>
-        <div class="carousel" data-carousel="about">
-          <div class="carousel-image">
-            <div class="carousel-track">
-              <div class="carousel-slide" data-caption="Studio">
-                <img
-                  src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'><defs><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23050505'/><stop offset='100%' stop-color='%23222222'/></linearGradient></defs><rect width='1600' height='1000' fill='url(%23a)'/><circle cx='320' cy='270' r='210' fill='%23ffffff' opacity='0.1'/><circle cx='1120' cy='700' r='290' fill='%23d8d2c6' opacity='0.12'/><rect x='520' y='180' width='460' height='620' rx='36' fill='%23f3eee4' opacity='0.92'/><rect x='580' y='250' width='340' height='70' rx='20' fill='%23050505' opacity='0.8'/><rect x='580' y='368' width='280' height='24' rx='12' fill='%23050505' opacity='0.3'/><rect x='580' y='420' width='220' height='24' rx='12' fill='%23050505' opacity='0.22'/><rect x='580' y='612' width='180' height='90' rx='16' fill='%23050505' opacity='0.8'/></svg>"
-                  alt="Intro gallery image one"
-                />
-              </div>
-              <div class="carousel-slide" data-caption="Moments">
-                <img
-                  src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'><defs><linearGradient id='b' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23030303'/><stop offset='100%' stop-color='%23171717'/></linearGradient></defs><rect width='1600' height='1000' fill='url(%23b)'/><path d='M0 740C210 620 380 610 552 700s294 110 492 20 366-84 556 38V1000H0z' fill='%23ffffff' opacity='0.08'/><circle cx='1170' cy='240' r='210' fill='%23ffffff' opacity='0.08'/><rect x='240' y='170' width='320' height='510' rx='30' fill='%23d9d3c7' opacity='0.95'/><rect x='630' y='260' width='700' height='130' rx='65' fill='%23ffffff' opacity='0.1'/><rect x='630' y='440' width='560' height='44' rx='22' fill='%23ffffff' opacity='0.12'/><rect x='630' y='528' width='420' height='44' rx='22' fill='%23ffffff' opacity='0.08'/></svg>"
-                  alt="Intro gallery image two"
-                />
-              </div>
-              <div class="carousel-slide" data-caption="Details">
-                <img
-                  src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'><defs><linearGradient id='c' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23010101'/><stop offset='100%' stop-color='%23282828'/></linearGradient></defs><rect width='1600' height='1000' fill='url(%23c)'/><circle cx='810' cy='420' r='350' fill='%23ffffff' opacity='0.06'/><circle cx='810' cy='420' r='220' fill='%23ffffff' opacity='0.1'/><rect x='180' y='170' width='180' height='650' rx='90' fill='%23ffffff' opacity='0.08'/><rect x='1240' y='200' width='160' height='580' rx='80' fill='%23d8d2c6' opacity='0.18'/><rect x='590' y='350' width='440' height='140' rx='70' fill='%23f4efe5' opacity='0.95'/><rect x='650' y='560' width='320' height='30' rx='15' fill='%23ffffff' opacity='0.14'/><rect x='690' y='630' width='240' height='30' rx='15' fill='%23ffffff' opacity='0.1'/></svg>"
-                  alt="Intro gallery image three"
-                />
-              </div>
+    <div class="site-layout">
+      <aside class="sidebar">
+        <section class="profile-card reveal">
+          <span class="eyebrow">Photo 1</span>
+          <div class="sticky-photo">
+            <img alt="Fixed portrait of Zhang Yiyang" src="./image/PHOTO-1.jpg" />
+          </div>
+          <div class="profile-meta">
+            <h1>Zhang<br />Yiyang</h1>
+            <p>The left side stays fixed while the right side scrolls, creating a calm editorial rhythm. This is your permanent profile photo area.</p>
+            <div class="profile-tags"><span>Elegant</span><span>Warm</span><span>Curious</span><span>Expressive</span></div>
+          </div>
+        </section>
+      </aside>
+      <section class="main-content">
+        <section class="hero-section reveal" id="top">
+          <div class="hero-inner">
+            <span class="eyebrow">Main Page</span>
+            <h2>A Scrolling Personal Space</h2>
+            <p>The homepage opens cinematically, then turns into a smooth vertical browsing experience. Visitors can keep scrolling through your introduction, portfolio, honors, and social information while the left-side portrait remains visually anchored.</p>
+            <div class="hero-nav">
+              <a href="#introduction">Personal Introduction</a>
+              <a href="#portfolio">Portfolio Selection</a>
+              <a href="#honors">Honors</a>
+              <a href="#social">Social Media</a>
             </div>
           </div>
-          <div class="carousel-dots" aria-label="About carousel controls"></div>
-        </div>
-      </article>
-
-      <article class="section-card reveal">
-        <span class="eyebrow">Section 02</span>
-        <h2>Portfolio</h2>
-        <p>
-          A curated collection focused on visual clarity, presentation, and
-          digital storytelling. You can replace these cards with your real
-          projects later without changing the overall structure.
-        </p>
-        <div class="portfolio-grid">
-          <div class="portfolio-item">
-            <h3>Visual Identity</h3>
-            <p>Brand presentation pages with restrained typography and cinematic transitions.</p>
+        </section>
+        <section class="content-section reveal" id="introduction">
+          <div class="section-grid">
+            <div class="section-copy">
+              <span class="eyebrow">Personal Introduction</span>
+              <h2>Gentle, Bright, and Full of Curiosity</h2>
+              <p>This part introduces your personality with moving images. When the visitor scrolls to this section, the photos begin switching automatically, pairing each image with a slightly different mood.</p>
+              <ul class="personality-list">
+                <li>Warm and approachable, with a calm presence that makes people feel comfortable.</li>
+                <li>Curious about new places, visual experiences, and meaningful stories behind everyday moments.</li>
+                <li>Elegant in style but lively in expression, balancing softness with confidence.</li>
+                <li>Enjoys beauty, travel, and memorable details, turning ordinary scenes into personal highlights.</li>
+              </ul>
+              <div class="intro-progress" id="introProgress" aria-label="Introduction image controls"></div>
+            </div>
+            <div class="intro-visual" id="introVisual">
+              <img class="active" alt="Introduction image 1" data-caption="City Evening" src="./image/Personal%20Introduction/PHOTO-2.jpg" />
+              <img alt="Introduction image 2" data-caption="Travel Day" src="./image/Personal%20Introduction/PHOTO-3.jpg" />
+              <img alt="Introduction image 3" data-caption="Relaxed Weekend" src="./image/Personal%20Introduction/PHOTO-4.jpg" />
+              <img alt="Introduction image 4" data-caption="Cultural Moment" src="./image/Personal%20Introduction/PHOTO-5.jpg" />
+              <img alt="Introduction image 5" data-caption="Open Landscape" src="./image/Personal%20Introduction/PHOTO-6.jpg" />
+              <img alt="Introduction image 6" data-caption="Floral Scene" src="./image/Personal%20Introduction/PHOTO-7.jpg" />
+              <div class="intro-caption" id="introCaption">City Evening</div>
+            </div>
           </div>
-          <div class="portfolio-item">
-            <h3>Web Experience</h3>
-            <p>Responsive interfaces built for atmosphere, readability, and strong first impressions.</p>
+        </section>
+        <section class="content-section reveal" id="portfolio">
+          <div class="section-copy">
+            <span class="eyebrow">Portfolio Selection</span>
+            <h2>Interactive Project Gallery</h2>
+            <p>This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.</p>
           </div>
-          <div class="portfolio-item">
-            <h3>Creative Direction</h3>
-            <p>Layouts balancing editorial calm with expressive composition and motion.</p>
+          <div class="portfolio-grid" id="portfolioGrid">
+            <article class="portfolio-card" data-title="Visual Story Project" data-type="Editorial Layout" data-description="A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically." data-image="1">
+              <div class="portfolio-thumb"><img alt="Portfolio placeholder 1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='50%' stop-color='%23233963'/><stop offset='100%' stop-color='%230a0d16'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p1)'/><circle cx='320' cy='240' r='170' fill='%23ffffff' opacity='0.1'/><rect x='520' y='170' width='420' height='110' rx='22' fill='%23ffffff' opacity='0.12'/><rect x='520' y='336' width='320' height='36' rx='18' fill='%23ffffff' opacity='0.16'/><rect x='150' y='430' width='900' height='230' rx='34' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
+              <h3>Visual Story Project</h3>
+              <p>A polished presentation slot for a design-led or personal narrative project.</p>
+              <small>Click to view</small>
+            </article>
+            <article class="portfolio-card" data-title="Web Design Case" data-type="Interactive Experience" data-description="Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece." data-image="2">
+              <div class="portfolio-thumb"><img alt="Portfolio placeholder 2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23181818'/><stop offset='55%' stop-color='%23393939'/><stop offset='100%' stop-color='%23090909'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p2)'/><rect x='160' y='130' width='880' height='540' rx='34' fill='%23ffffff' opacity='0.08'/><rect x='240' y='230' width='720' height='90' rx='20' fill='%23ffffff' opacity='0.14'/><rect x='240' y='378' width='520' height='38' rx='19' fill='%23ffffff' opacity='0.12'/><rect x='240' y='456' width='420' height='38' rx='19' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
+              <h3>Web Design Case</h3>
+              <p>A clean project tile for interface design, coding work, or portfolio storytelling.</p>
+              <small>Click to view</small>
+            </article>
+            <article class="portfolio-card" data-title="Brand Concept" data-type="Creative Direction" data-description="Use this space for visual branding, campaign concepts, or curated image-based work with a short summary." data-image="3">
+              <div class="portfolio-thumb"><img alt="Portfolio placeholder 3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236d8b8f'/><stop offset='55%' stop-color='%23bfd3d0'/><stop offset='100%' stop-color='%23516366'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p3)'/><circle cx='860' cy='200' r='180' fill='%23ffffff' opacity='0.22'/><rect x='120' y='110' width='360' height='580' rx='30' fill='%23ffffff' opacity='0.24'/><rect x='560' y='310' width='410' height='82' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='560' y='444' width='310' height='36' rx='18' fill='%23ffffff' opacity='0.16'/></svg>" /></div>
+              <h3>Brand Concept</h3>
+              <p>An adaptable card for a visual identity or campaign proposal with room to grow.</p>
+              <small>Click to view</small>
+            </article>
+            <article class="portfolio-card" data-title="Personal Archive" data-type="Photo Narrative" data-description="A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences." data-image="4">
+              <div class="portfolio-thumb"><img alt="Portfolio placeholder 4" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p4)'/><path d='M0 600C170 540 300 540 430 606s310 92 456 20 232-76 314-52V800H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/><rect x='170' y='306' width='520' height='40' rx='20' fill='%23ffffff' opacity='0.12'/><rect x='170' y='390' width='420' height='40' rx='20' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
+              <h3>Personal Archive</h3>
+              <p>A visual archive card for storytelling through selected moments and polished layouts.</p>
+              <small>Click to view</small>
+            </article>
           </div>
-          <div class="portfolio-item">
-            <h3>Personal Archive</h3>
-            <p>A digital home for selected works, milestones, and future collaborations.</p>
+        </section>
+        <section class="content-section reveal" id="honors">
+          <div class="section-copy">
+            <span class="eyebrow">Honors</span>
+            <h2>Recognition & Highlights</h2>
+            <p>This block stays simple so future achievements remain the focus.</p>
+            <ul class="honor-list">
+              <li>Scholarships, awards, or academic recognition can be listed here.</li>
+              <li>Competition results and selected achievements can be updated at any time.</li>
+              <li>Featured experiences, exchange programs, or invited activities can also live here.</li>
+            </ul>
           </div>
-        </div>
-      </article>
-
-      <article class="section-card reveal">
-        <span class="eyebrow">Section 03</span>
-        <h2>Honors</h2>
-        <p>
-          This area is prepared for awards, certifications, scholarships, and
-          public recognition. The style stays understated so the content remains
-          the focus.
-        </p>
-        <ul class="honor-list">
-          <li><strong>Academic Excellence</strong> placeholder for school or university distinctions.</li>
-          <li><strong>Competition Award</strong> placeholder for design, innovation, or academic contests.</li>
-          <li><strong>Public Recognition</strong> placeholder for featured work, invited talks, or honors.</li>
-          <li><strong>Certification</strong> placeholder for professional credentials and specialized training.</li>
-        </ul>
-      </article>
-
-      <article class="section-card reveal">
-        <span class="eyebrow">Section 04</span>
-        <h2>Social Media</h2>
-        <p>
-          A clean contact block for the platforms where you share work, updates,
-          and collaborations. Replace the sample handles below with your real accounts.
-        </p>
-        <div class="social-links">
-          <a href="#" aria-label="Instagram link">
-            <span>Instagram</span>
-            <small>@zhangyiyang</small>
-          </a>
-          <a href="#" aria-label="X link">
-            <span>X / Twitter</span>
-            <small>@yiyangstudio</small>
-          </a>
-          <a href="#" aria-label="LinkedIn link">
-            <span>LinkedIn</span>
-            <small>Zhang Yiyang</small>
-          </a>
-          <a href="#" aria-label="Email link">
-            <span>Email</span>
-            <small>hello@example.com</small>
-          </a>
-        </div>
-      </article>
-    </section>
+        </section>
+        <section class="content-section reveal" id="social">
+          <div class="section-copy">
+            <span class="eyebrow">Social Media</span>
+            <h2>Where to Find Me</h2>
+            <p>A clean end section for contact and social accounts.</p>
+          </div>
+          <div class="social-list">
+            <a class="social-item" href="#"><strong>Instagram</strong><span>@zhangyiyang</span></a>
+            <a class="social-item" href="#"><strong>X / Twitter</strong><span>@yiyangstudio</span></a>
+            <a class="social-item" href="#"><strong>LinkedIn</strong><span>Zhang Yiyang</span></a>
+            <a class="social-item" href="#"><strong>Email</strong><span>hello@example.com</span></a>
+          </div>
+        </section>
+      </section>
+    </div>
   </main>
-
+  <div class="portfolio-modal" id="portfolioModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-image" id="modalImage"></div>
+      <div class="modal-copy">
+        <span class="eyebrow">Project Detail</span>
+        <h3 id="modalTitle">Project Title</h3>
+        <p id="modalType">Project Type</p>
+        <p id="modalDescription">Project description.</p>
+        <div class="modal-actions"><button type="button" id="closeModal">Close</button></div>
+      </div>
+    </div>
+  </div>
   <script>
     const introScreen = document.getElementById("introScreen");
     const pageShell = document.getElementById("pageShell");
-
     setTimeout(() => {
       introScreen.classList.add("hidden");
       pageShell.classList.add("ready");
     }, 6100);
 
-    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
-      const track = carousel.querySelector(".carousel-track");
-      const slides = Array.from(carousel.querySelectorAll(".carousel-slide"));
-      const dotsWrap = carousel.querySelector(".carousel-dots");
-      let index = 0;
-
-      const update = () => {
-        track.style.transform = `translateX(-${index * 100}%)`;
-        dotsWrap.querySelectorAll("button").forEach((dot, dotIndex) => {
-          dot.classList.toggle("active", dotIndex === index);
-        });
-      };
-
-      slides.forEach((_, dotIndex) => {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.setAttribute("aria-label", `Go to slide ${dotIndex + 1}`);
-        dot.addEventListener("click", () => {
-          index = dotIndex;
-          update();
-        });
-        dotsWrap.appendChild(dot);
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
       });
+    }, { threshold: 0.18 });
+    document.querySelectorAll(".reveal").forEach((item) => revealObserver.observe(item));
 
-      update();
+    const introSection = document.getElementById("introduction");
+    const introImages = Array.from(document.querySelectorAll("#introVisual img"));
+    const introCaption = document.getElementById("introCaption");
+    const introProgress = document.getElementById("introProgress");
+    let introIndex = 0;
+    let introTimer = null;
 
-      setInterval(() => {
-        index = (index + 1) % slides.length;
-        update();
-      }, 3200);
+    const updateIntroVisual = (nextIndex) => {
+      introIndex = nextIndex;
+      introImages.forEach((img, index) => img.classList.toggle("active", index === introIndex));
+      introCaption.textContent = introImages[introIndex].dataset.caption;
+      introProgress.querySelectorAll("button").forEach((button, index) => button.classList.toggle("active", index === introIndex));
+    };
+
+    introImages.forEach((img, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Show introduction image ${index + 1}`);
+      dot.addEventListener("click", () => updateIntroVisual(index));
+      introProgress.appendChild(dot);
     });
+    updateIntroVisual(0);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    const startIntroRotation = () => {
+      if (introTimer) return;
+      introTimer = setInterval(() => {
+        updateIntroVisual((introIndex + 1) % introImages.length);
+      }, 2600);
+    };
+    const stopIntroRotation = () => {
+      if (!introTimer) return;
+      clearInterval(introTimer);
+      introTimer = null;
+    };
 
-    document.querySelectorAll(".reveal").forEach((card) => observer.observe(card));
+    const introObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) startIntroRotation();
+        else stopIntroRotation();
+      });
+    }, { threshold: 0.45 });
+    introObserver.observe(introSection);
+
+    const modal = document.getElementById("portfolioModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalType = document.getElementById("modalType");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalImage = document.getElementById("modalImage");
+    const closeModal = document.getElementById("closeModal");
+
+    const modalVisuals = {
+      1: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='55%' stop-color='%23233963'/><stop offset='100%' stop-color='%23090d16'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m1)'/><circle cx='270' cy='200' r='180' fill='%23ffffff' opacity='0.12'/><rect x='460' y='170' width='520' height='110' rx='22' fill='%23ffffff' opacity='0.14'/><rect x='150' y='420' width='900' height='260' rx='34' fill='%23ffffff' opacity='0.08'/></svg>",
+      2: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23181818'/><stop offset='55%' stop-color='%23393939'/><stop offset='100%' stop-color='%23090909'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m2)'/><rect x='120' y='120' width='960' height='660' rx='34' fill='%23ffffff' opacity='0.08'/><rect x='220' y='230' width='760' height='100' rx='20' fill='%23ffffff' opacity='0.16'/><rect x='220' y='400' width='520' height='40' rx='20' fill='%23ffffff' opacity='0.12'/></svg>",
+      3: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236d8b8f'/><stop offset='55%' stop-color='%23bfd3d0'/><stop offset='100%' stop-color='%23516366'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m3)'/><circle cx='860' cy='200' r='180' fill='%23ffffff' opacity='0.22'/><rect x='120' y='110' width='360' height='660' rx='30' fill='%23ffffff' opacity='0.24'/><rect x='560' y='310' width='410' height='82' rx='18' fill='%23ffffff' opacity='0.18'/></svg>",
+      4: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m4)'/><path d='M0 640C170 580 300 580 430 646s310 92 456 20 232-76 314-52V900H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/></svg>"
+    };
+
+    const openModal = (card) => {
+      modalTitle.textContent = card.dataset.title;
+      modalType.textContent = card.dataset.type;
+      modalDescription.textContent = card.dataset.description;
+      modalImage.innerHTML = `<img alt="${card.dataset.title}" src="${modalVisuals[card.dataset.image]}" />`;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    };
+    const hideModal = () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+    document.querySelectorAll(".portfolio-card").forEach((card) => {
+      card.addEventListener("click", () => openModal(card));
+    });
+    closeModal.addEventListener("click", hideModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) hideModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("open")) hideModal();
+    });
   </script>
 </body>
 </html>
