@@ -59,6 +59,107 @@
       background-size: 52px 52px;
       mask-image: radial-gradient(circle at center, black 40%, transparent 92%);
     }
+    .language-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 24;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.06), transparent 30%),
+        rgba(0,0,0,0.94);
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+      overflow: hidden;
+    }
+    .language-gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .language-panel {
+      position: relative;
+      z-index: 2;
+      width: min(560px, 100%);
+      padding: 32px;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 18px;
+      text-align: center;
+      backdrop-filter: blur(14px);
+    }
+    .language-panel h2,
+    .language-panel p {
+      margin: 0;
+    }
+    .language-panel h2 {
+      font-family: var(--title-font);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .language-panel p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .language-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 8px;
+    }
+    .language-btn {
+      min-width: 148px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      font: inherit;
+      font-size: 0.96rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .language-btn:hover,
+    .language-btn.active {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.24);
+      box-shadow: 0 0 24px rgba(255,255,255,0.08);
+    }
+    .language-bloom {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 220px;
+      height: 220px;
+      transform: translate(-50%, -50%) scale(0.2);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.28), rgba(255,255,255,0.08) 26%, rgba(255,255,255,0) 58%),
+        conic-gradient(from 0deg, rgba(255,255,255,0.2), rgba(221,213,197,0.12), rgba(255,255,255,0.22), rgba(255,255,255,0.08), rgba(255,255,255,0.2));
+      filter: blur(8px);
+      mask:
+        radial-gradient(circle at center, black 0 28%, transparent 29%),
+        radial-gradient(ellipse at top, black 0 42%, transparent 43%),
+        radial-gradient(ellipse at bottom, black 0 42%, transparent 43%),
+        radial-gradient(ellipse at left, black 0 42%, transparent 43%),
+        radial-gradient(ellipse at right, black 0 42%, transparent 43%);
+      animation: none;
+    }
+    .language-gate.opening .language-bloom {
+      animation: bloomOpen 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .language-gate.opening .language-panel {
+      animation: panelFade 0.65s ease forwards;
+    }
     .intro-screen {
       position: fixed;
       inset: 0;
@@ -67,6 +168,15 @@
       background: rgba(0,0,0,0.95);
       z-index: 20;
       transition: opacity 1s ease, visibility 1s ease;
+    }
+    .intro-screen.idle {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .intro-screen.idle .intro-line {
+      animation: none;
+      opacity: 0;
     }
     .intro-screen.hidden { opacity: 0; visibility: hidden; }
     .intro-skip {
@@ -471,6 +581,26 @@
       from { transform: translate3d(-2%, -1%, 0) scale(1); }
       to { transform: translate3d(2%, 1%, 0) scale(1.08); }
     }
+    @keyframes bloomOpen {
+      0% {
+        opacity: 0.18;
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+      }
+      38% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.4) rotate(32deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(12) rotate(88deg);
+      }
+    }
+    @keyframes panelFade {
+      to {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+      }
+    }
     @media (max-width: 1080px) {
       .site-layout { grid-template-columns: 1fr; }
       .sidebar { position: relative; top: 0; height: auto; }
@@ -495,57 +625,73 @@
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
-  <div class="intro-screen" id="introScreen" aria-hidden="true">
+  <div class="language-gate" id="languageGate">
+    <div class="language-bloom" aria-hidden="true"></div>
+    <div class="language-panel">
+      <h2 id="languageTitle">Choose Language</h2>
+      <p id="languageDescription">Select your preferred language to begin the experience.</p>
+      <div class="language-actions">
+        <button class="language-btn" data-lang="zh" type="button">中文</button>
+        <button class="language-btn" data-lang="en" type="button">English</button>
+      </div>
+    </div>
+  </div>
+  <div class="intro-screen idle" id="introScreen" aria-hidden="true">
     <button class="intro-skip" id="introSkip" type="button">Skip</button>
     <div class="intro-sequence">
-      <p class="intro-line name">ZHANG YIYANG</p>
-      <p class="intro-line welcome">Welcome to my website</p>
+      <p class="intro-line name" id="introName">ZHANG YIYANG</p>
+      <p class="intro-line welcome" id="introWelcome">Welcome to my website</p>
     </div>
   </div>
   <main class="page-shell" id="pageShell">
     <div class="site-layout">
       <aside class="sidebar">
         <section class="profile-card reveal">
-          <span class="eyebrow">Photo 1</span>
+          <span class="eyebrow" id="profileEyebrow">Photo 1</span>
           <div class="sticky-photo">
             <img alt="Fixed portrait of Zhang Yiyang" src="./image/PHOTO-1.jpg" />
           </div>
           <div class="profile-meta">
-            <h1>Zhang<br />Yiyang</h1>
-            <p class="profile-heading-cn">章依杨</p>
+            <h1 id="profileName">Zhang<br />Yiyang</h1>
+            <p class="profile-heading-cn" id="profileNativeName">章依杨</p>
             <div class="profile-education">
-              <p>GRADUATED FROM: SHANGHAI BUSINESS SCHOOL</p>
-              <p>MAJOR: ACCOUNTING</p>
+              <p id="profileEducation">GRADUATED FROM: SHANGHAI BUSINESS SCHOOL</p>
+              <p id="profileMajor">MAJOR: ACCOUNTING</p>
             </div>
-            <div class="profile-tags"><span>终身学习</span><span>乐观开朗</span><span>永不言弃</span><span>粗中有细</span></div>
+            <div class="profile-tags">
+              <span id="tag1">终身学习</span>
+              <span id="tag2">乐观开朗</span>
+              <span id="tag3">永不言弃</span>
+              <span id="tag4">粗中有细</span>
+            </div>
           </div>
         </section>
       </aside>
       <section class="main-content">
         <section class="hero-section reveal" id="top">
           <div class="hero-inner">
-            <span class="eyebrow">Main Page</span>
-            <h2>A Scrolling Personal Space</h2>
-            <p>The homepage opens cinematically, then turns into a smooth vertical browsing experience. Visitors can keep scrolling through your introduction, portfolio, honors, and social information while the left-side portrait remains visually anchored.</p>
+            <span class="eyebrow" id="heroEyebrow">Main Page</span>
+            <h2 id="heroTitle">A Scrolling Personal Space</h2>
+            <p id="heroDescription">The homepage opens cinematically, then turns into a smooth vertical browsing experience. Visitors can keep scrolling through your introduction, portfolio, honors, and social information while the left-side portrait remains visually anchored.</p>
             <div class="hero-nav">
-              <a href="#introduction">Personal Introduction</a>
-              <a href="#portfolio">Portfolio Selection</a>
-              <a href="#honors">Honors</a>
-              <a href="#social">Social Media</a>
+              <a href="#introduction" id="navIntroduction">Personal Introduction</a>
+              <a href="#portfolio" id="navPortfolio">Portfolio Selection</a>
+              <a href="#honors" id="navHonors">Honors</a>
+              <a href="#social" id="navSocial">Social Media</a>
             </div>
           </div>
         </section>
         <section class="content-section reveal" id="introduction">
           <div class="section-grid">
             <div class="section-copy">
-              <span class="eyebrow">Personal Introduction</span>
-              <h2>Gentle, Bright, and Full of Curiosity</h2>
-              <p>This part introduces your personality with moving images. When the visitor scrolls to this section, the photos begin switching automatically, pairing each image with a slightly different mood.</p>
+              <span class="eyebrow" id="introSectionEyebrow">Personal Introduction</span>
+              <h2 id="introSectionTitle">Gentle, Bright, and Full of Curiosity</h2>
+              <p id="introSectionDescription">This part introduces your personality with moving images. When the visitor scrolls to this section, the photos begin switching automatically, pairing each image with a slightly different mood.</p>
               <ul class="personality-list">
-                <li>Warm and approachable, with a calm presence that makes people feel comfortable.</li>
-                <li>Curious about new places, visual experiences, and meaningful stories behind everyday moments.</li>
-                <li>Elegant in style but lively in expression, balancing softness with confidence.</li>
-                <li>Enjoys beauty, travel, and memorable details, turning ordinary scenes into personal highlights.</li>
+                <li id="personality1">Warm and approachable, with a calm presence that makes people feel comfortable.</li>
+                <li id="personality2">Curious about new places, visual experiences, and meaningful stories behind everyday moments.</li>
+                <li id="personality3">Elegant in style but lively in expression, balancing softness with confidence.</li>
+                <li id="personality4">Enjoys beauty, travel, and memorable details, turning ordinary scenes into personal highlights.</li>
               </ul>
               <div class="intro-progress" id="introProgress" aria-label="Introduction image controls"></div>
             </div>
@@ -562,59 +708,59 @@
         </section>
         <section class="content-section reveal" id="portfolio">
           <div class="section-copy">
-            <span class="eyebrow">Portfolio Selection</span>
-            <h2>Interactive Project Gallery</h2>
-            <p>This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.</p>
+            <span class="eyebrow" id="portfolioEyebrow">Portfolio Selection</span>
+            <h2 id="portfolioTitle">Interactive Project Gallery</h2>
+            <p id="portfolioDescription">This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.</p>
           </div>
           <div class="portfolio-grid" id="portfolioGrid">
-            <article class="portfolio-card" data-title="Visual Story Project" data-type="Editorial Layout" data-description="A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically." data-image="1">
+            <article class="portfolio-card" data-project="story" data-title="Visual Story Project" data-type="Editorial Layout" data-description="A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically." data-image="1">
               <div class="portfolio-thumb"><img alt="Portfolio placeholder 1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='50%' stop-color='%23233963'/><stop offset='100%' stop-color='%230a0d16'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p1)'/><circle cx='320' cy='240' r='170' fill='%23ffffff' opacity='0.1'/><rect x='520' y='170' width='420' height='110' rx='22' fill='%23ffffff' opacity='0.12'/><rect x='520' y='336' width='320' height='36' rx='18' fill='%23ffffff' opacity='0.16'/><rect x='150' y='430' width='900' height='230' rx='34' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3>Visual Story Project</h3>
-              <p>A polished presentation slot for a design-led or personal narrative project.</p>
-              <small>Click to view</small>
+              <h3 data-project-title>Visual Story Project</h3>
+              <p data-project-description>A polished presentation slot for a design-led or personal narrative project.</p>
+              <small data-project-cta>Click to view</small>
             </article>
-            <article class="portfolio-card" data-title="Web Design Case" data-type="Interactive Experience" data-description="Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece." data-image="2">
+            <article class="portfolio-card" data-project="web" data-title="Web Design Case" data-type="Interactive Experience" data-description="Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece." data-image="2">
               <div class="portfolio-thumb"><img alt="Portfolio placeholder 2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23181818'/><stop offset='55%' stop-color='%23393939'/><stop offset='100%' stop-color='%23090909'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p2)'/><rect x='160' y='130' width='880' height='540' rx='34' fill='%23ffffff' opacity='0.08'/><rect x='240' y='230' width='720' height='90' rx='20' fill='%23ffffff' opacity='0.14'/><rect x='240' y='378' width='520' height='38' rx='19' fill='%23ffffff' opacity='0.12'/><rect x='240' y='456' width='420' height='38' rx='19' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3>Web Design Case</h3>
-              <p>A clean project tile for interface design, coding work, or portfolio storytelling.</p>
-              <small>Click to view</small>
+              <h3 data-project-title>Web Design Case</h3>
+              <p data-project-description>A clean project tile for interface design, coding work, or portfolio storytelling.</p>
+              <small data-project-cta>Click to view</small>
             </article>
-            <article class="portfolio-card" data-title="Brand Concept" data-type="Creative Direction" data-description="Use this space for visual branding, campaign concepts, or curated image-based work with a short summary." data-image="3">
+            <article class="portfolio-card" data-project="brand" data-title="Brand Concept" data-type="Creative Direction" data-description="Use this space for visual branding, campaign concepts, or curated image-based work with a short summary." data-image="3">
               <div class="portfolio-thumb"><img alt="Portfolio placeholder 3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236d8b8f'/><stop offset='55%' stop-color='%23bfd3d0'/><stop offset='100%' stop-color='%23516366'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p3)'/><circle cx='860' cy='200' r='180' fill='%23ffffff' opacity='0.22'/><rect x='120' y='110' width='360' height='580' rx='30' fill='%23ffffff' opacity='0.24'/><rect x='560' y='310' width='410' height='82' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='560' y='444' width='310' height='36' rx='18' fill='%23ffffff' opacity='0.16'/></svg>" /></div>
-              <h3>Brand Concept</h3>
-              <p>An adaptable card for a visual identity or campaign proposal with room to grow.</p>
-              <small>Click to view</small>
+              <h3 data-project-title>Brand Concept</h3>
+              <p data-project-description>An adaptable card for a visual identity or campaign proposal with room to grow.</p>
+              <small data-project-cta>Click to view</small>
             </article>
-            <article class="portfolio-card" data-title="Personal Archive" data-type="Photo Narrative" data-description="A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences." data-image="4">
+            <article class="portfolio-card" data-project="archive" data-title="Personal Archive" data-type="Photo Narrative" data-description="A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences." data-image="4">
               <div class="portfolio-thumb"><img alt="Portfolio placeholder 4" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p4)'/><path d='M0 600C170 540 300 540 430 606s310 92 456 20 232-76 314-52V800H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/><rect x='170' y='306' width='520' height='40' rx='20' fill='%23ffffff' opacity='0.12'/><rect x='170' y='390' width='420' height='40' rx='20' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3>Personal Archive</h3>
-              <p>A visual archive card for storytelling through selected moments and polished layouts.</p>
-              <small>Click to view</small>
+              <h3 data-project-title>Personal Archive</h3>
+              <p data-project-description>A visual archive card for storytelling through selected moments and polished layouts.</p>
+              <small data-project-cta>Click to view</small>
             </article>
           </div>
         </section>
         <section class="content-section reveal" id="honors">
           <div class="section-copy">
-            <span class="eyebrow">Honors</span>
-            <h2>Recognition & Highlights</h2>
-            <p>This block stays simple so future achievements remain the focus.</p>
+            <span class="eyebrow" id="honorsEyebrow">Honors</span>
+            <h2 id="honorsTitle">Recognition & Highlights</h2>
+            <p id="honorsDescription">This block stays simple so future achievements remain the focus.</p>
             <ul class="honor-list">
-              <li>Scholarships, awards, or academic recognition can be listed here.</li>
-              <li>Competition results and selected achievements can be updated at any time.</li>
-              <li>Featured experiences, exchange programs, or invited activities can also live here.</li>
+              <li id="honor1">Scholarships, awards, or academic recognition can be listed here.</li>
+              <li id="honor2">Competition results and selected achievements can be updated at any time.</li>
+              <li id="honor3">Featured experiences, exchange programs, or invited activities can also live here.</li>
             </ul>
           </div>
         </section>
         <section class="content-section reveal" id="social">
           <div class="section-copy">
-            <span class="eyebrow">Social Media</span>
-            <h2>Where to Find Me</h2>
-            <p>A clean end section for contact and social accounts.</p>
+            <span class="eyebrow" id="socialEyebrow">Social Media</span>
+            <h2 id="socialTitle">Where to Find Me</h2>
+            <p id="socialDescription">A clean end section for contact and social accounts.</p>
           </div>
           <div class="social-list">
             <a class="social-item" href="#"><strong>Instagram</strong><span>@zhangyiyang</span></a>
             <a class="social-item" href="#"><strong>X / Twitter</strong><span>@yiyangstudio</span></a>
-            <a class="social-item" href="#"><strong>LinkedIn</strong><span>Zhang Yiyang</span></a>
+            <a class="social-item" href="#"><strong>LinkedIn</strong><span id="socialLinkedInName">Zhang Yiyang</span></a>
             <a class="social-item" href="#"><strong>Email</strong><span>hello@example.com</span></a>
           </div>
         </section>
@@ -625,7 +771,7 @@
     <div class="modal-panel">
       <div class="modal-image" id="modalImage"></div>
       <div class="modal-copy">
-        <span class="eyebrow">Project Detail</span>
+        <span class="eyebrow" id="modalEyebrow">Project Detail</span>
         <h3 id="modalTitle">Project Title</h3>
         <p id="modalType">Project Type</p>
         <p id="modalDescription">Project description.</p>
@@ -634,9 +780,131 @@
     </div>
   </div>
   <script>
+    const translations = {
+      en: {
+        htmlLang: "en",
+        languageTitle: "Choose Language",
+        languageDescription: "Select your preferred language to begin the experience.",
+        introName: "ZHANG YIYANG",
+        introWelcome: "Welcome to my website",
+        skip: "Skip",
+        profileEyebrow: "Photo 1",
+        profileName: "Zhang<br />Yiyang",
+        profileNativeName: "章依杨",
+        profileEducation: "GRADUATED FROM: SHANGHAI BUSINESS SCHOOL",
+        profileMajor: "MAJOR: ACCOUNTING",
+        tags: ["Lifelong Learning", "Optimistic", "Never Give Up", "Bold Yet Careful"],
+        heroEyebrow: "Main Page",
+        heroTitle: "A Scrolling Personal Space",
+        heroDescription: "The homepage opens cinematically, then turns into a smooth vertical browsing experience. Visitors can keep scrolling through your introduction, portfolio, honors, and social information while the left-side portrait remains visually anchored.",
+        navIntroduction: "Personal Introduction",
+        navPortfolio: "Portfolio Selection",
+        navHonors: "Honors",
+        navSocial: "Social Media",
+        introSectionEyebrow: "Personal Introduction",
+        introSectionTitle: "Gentle, Bright, and Full of Curiosity",
+        introSectionDescription: "This part introduces your personality with moving images. When the visitor scrolls to this section, the photos begin switching automatically, pairing each image with a slightly different mood.",
+        personality: [
+          "Warm and approachable, with a calm presence that makes people feel comfortable.",
+          "Curious about new places, visual experiences, and meaningful stories behind everyday moments.",
+          "Elegant in style but lively in expression, balancing softness with confidence.",
+          "Enjoys beauty, travel, and memorable details, turning ordinary scenes into personal highlights."
+        ],
+        captions: ["City Evening", "Travel Day", "Relaxed Weekend", "Cultural Moment", "Open Landscape", "Floral Scene"],
+        portfolioEyebrow: "Portfolio Selection",
+        portfolioTitle: "Interactive Project Gallery",
+        portfolioDescription: "This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.",
+        honorsEyebrow: "Honors",
+        honorsTitle: "Recognition & Highlights",
+        honorsDescription: "This block stays simple so future achievements remain the focus.",
+        honors: [
+          "Scholarships, awards, or academic recognition can be listed here.",
+          "Competition results and selected achievements can be updated at any time.",
+          "Featured experiences, exchange programs, or invited activities can also live here."
+        ],
+        socialEyebrow: "Social Media",
+        socialTitle: "Where to Find Me",
+        socialDescription: "A clean end section for contact and social accounts.",
+        socialLinkedInName: "Zhang Yiyang",
+        modalEyebrow: "Project Detail",
+        close: "Close",
+        projectCta: "Click to view"
+      },
+      zh: {
+        htmlLang: "zh-CN",
+        languageTitle: "选择语言",
+        languageDescription: "请选择你希望浏览主页时使用的语言。",
+        introName: "章依杨",
+        introWelcome: "欢迎来到我的网站",
+        skip: "跳过",
+        profileEyebrow: "个人照片",
+        profileName: "ZHANG<br />YIYANG",
+        profileNativeName: "章依杨",
+        profileEducation: "毕业院校：上海商学院",
+        profileMajor: "专业：会计学",
+        tags: ["终身学习", "乐观开朗", "永不言弃", "粗中有细"],
+        heroEyebrow: "主页",
+        heroTitle: "可滚动浏览的个人空间",
+        heroDescription: "主页以电影感欢迎动画开场，随后自然过渡到纵向滚动浏览体验。访客可以依次阅读个人介绍、作品集、荣誉与社交信息，而左侧人物照片始终稳定呈现。",
+        navIntroduction: "个人介绍",
+        navPortfolio: "作品集精选",
+        navHonors: "所获荣誉",
+        navSocial: "社交媒体",
+        introSectionEyebrow: "个人介绍",
+        introSectionTitle: "温柔明亮，也始终保持好奇心",
+        introSectionDescription: "这一部分通过动态照片与文字结合，呈现你的性格气质。当访客滚动到这里时，照片会自动切换，让每一张画面都对应一种不同的情绪与故事感。",
+        personality: [
+          "待人温和真诚，给人一种自然亲近、容易相处的感觉。",
+          "对新的城市、风景与生活体验始终保持强烈好奇心。",
+          "气质优雅，但表达不拘谨，温柔之中也带着自信。",
+          "热爱旅行、审美与生活中的细节，善于把普通瞬间变成值得纪念的片段。"
+        ],
+        captions: ["城市夜色", "旅行时刻", "轻松周末", "文化印象", "自然风景", "花影瞬间"],
+        portfolioEyebrow: "作品集精选",
+        portfolioTitle: "可互动浏览的作品画廊",
+        portfolioDescription: "这一部分已经为你的作品上传预留好结构。每个卡片都可以点击查看更大的预览与项目说明，让作品集呈现更有互动感。",
+        honorsEyebrow: "所获荣誉",
+        honorsTitle: "荣誉与高光时刻",
+        honorsDescription: "这一块保持简洁克制，方便将来的奖项与成绩成为视觉重点。",
+        honors: [
+          "可用于展示奖学金、学业荣誉与综合表现奖励。",
+          "可随时补充竞赛成绩、项目成果与阶段性成就。",
+          "也适合放入交换经历、特色活动与受邀经历等内容。"
+        ],
+        socialEyebrow: "社交媒体",
+        socialTitle: "找到我的方式",
+        socialDescription: "用于展示联系方式与社交账号的简洁结尾区块。",
+        socialLinkedInName: "章依杨",
+        modalEyebrow: "项目详情",
+        close: "关闭",
+        projectCta: "点击查看"
+      }
+    };
+
+    const projectTranslations = {
+      en: {
+        story: { title: "Visual Story Project", type: "Editorial Layout", description: "A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically.", cardDescription: "A polished presentation slot for a design-led or personal narrative project." },
+        web: { title: "Web Design Case", type: "Interactive Experience", description: "Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece.", cardDescription: "A clean project tile for interface design, coding work, or portfolio storytelling." },
+        brand: { title: "Brand Concept", type: "Creative Direction", description: "Use this space for visual branding, campaign concepts, or curated image-based work with a short summary.", cardDescription: "An adaptable card for a visual identity or campaign proposal with room to grow." },
+        archive: { title: "Personal Archive", type: "Photo Narrative", description: "A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences.", cardDescription: "A visual archive card for storytelling through selected moments and polished layouts." }
+      },
+      zh: {
+        story: { title: "视觉叙事项目", type: "版式呈现", description: "这里是未来上传真实作品后的互动展示卡片。你替换图片与文字后，弹窗预览功能仍然可以直接使用。", cardDescription: "适合放置设计叙事类、个人表达类或视觉表达类项目。" },
+        web: { title: "网页设计案例", type: "互动体验", description: "这一卡片保留了同样的点击互动逻辑，后续可以直接替换为真实网站、活动页或展示项目。", cardDescription: "适合用于界面设计、前端实现或网页作品展示。" },
+        brand: { title: "品牌概念项目", type: "创意方向", description: "可用于展示品牌视觉、活动概念提案或图像策展类作品，并附上简要说明。", cardDescription: "适合展示品牌形象、视觉提案与创意概念内容。" },
+        archive: { title: "个人视觉档案", type: "影像叙事", description: "适合放入未来上传的摄影、旅行、生活记录或图文叙事类内容。", cardDescription: "适合承载旅行记录、生活片段与个人风格化内容。" }
+      }
+    };
+
     const introScreen = document.getElementById("introScreen");
+    const languageGate = document.getElementById("languageGate");
     const pageShell = document.getElementById("pageShell");
     const introSkip = document.getElementById("introSkip");
+    const introName = document.getElementById("introName");
+    const introWelcome = document.getElementById("introWelcome");
+    const languageButtons = Array.from(document.querySelectorAll(".language-btn"));
+    let currentLang = "en";
+    let introAutoTimer;
     let introDismissed = false;
     let introSoundPlayed = false;
     let audioCtx;
@@ -696,11 +964,101 @@
       window.removeEventListener("keydown", primeIntroSound);
     };
 
-    window.addEventListener("pointerdown", primeIntroSound, { once: true });
-    window.addEventListener("keydown", primeIntroSound, { once: true });
-    setTimeout(() => {
-      playIntroSound();
-    }, 180);
+    const updatePortfolioCards = (lang) => {
+      document.querySelectorAll(".portfolio-card").forEach((card) => {
+        const project = projectTranslations[lang][card.dataset.project];
+        card.dataset.title = project.title;
+        card.dataset.type = project.type;
+        card.dataset.description = project.description;
+        card.querySelector("[data-project-title]").textContent = project.title;
+        card.querySelector("[data-project-description]").textContent = project.cardDescription;
+        card.querySelector("[data-project-cta]").textContent = translations[lang].projectCta;
+      });
+    };
+
+    const applyLanguage = (lang) => {
+      currentLang = lang;
+      const t = translations[lang];
+      document.documentElement.lang = t.htmlLang;
+      document.getElementById("languageTitle").textContent = t.languageTitle;
+      document.getElementById("languageDescription").textContent = t.languageDescription;
+      introName.textContent = t.introName;
+      introWelcome.textContent = t.introWelcome;
+      introSkip.textContent = t.skip;
+      document.getElementById("profileEyebrow").textContent = t.profileEyebrow;
+      document.getElementById("profileName").innerHTML = t.profileName;
+      document.getElementById("profileNativeName").textContent = t.profileNativeName;
+      document.getElementById("profileName").style.display = lang === "zh" ? "none" : "";
+      document.getElementById("profileNativeName").style.display = lang === "en" ? "none" : "";
+      document.getElementById("profileEducation").textContent = t.profileEducation;
+      document.getElementById("profileMajor").textContent = t.profileMajor;
+      document.getElementById("tag1").textContent = t.tags[0];
+      document.getElementById("tag2").textContent = t.tags[1];
+      document.getElementById("tag3").textContent = t.tags[2];
+      document.getElementById("tag4").textContent = t.tags[3];
+      document.getElementById("heroEyebrow").textContent = t.heroEyebrow;
+      document.getElementById("heroTitle").textContent = t.heroTitle;
+      document.getElementById("heroDescription").textContent = t.heroDescription;
+      document.getElementById("navIntroduction").textContent = t.navIntroduction;
+      document.getElementById("navPortfolio").textContent = t.navPortfolio;
+      document.getElementById("navHonors").textContent = t.navHonors;
+      document.getElementById("navSocial").textContent = t.navSocial;
+      document.getElementById("introSectionEyebrow").textContent = t.introSectionEyebrow;
+      document.getElementById("introSectionTitle").textContent = t.introSectionTitle;
+      document.getElementById("introSectionDescription").textContent = t.introSectionDescription;
+      document.getElementById("personality1").textContent = t.personality[0];
+      document.getElementById("personality2").textContent = t.personality[1];
+      document.getElementById("personality3").textContent = t.personality[2];
+      document.getElementById("personality4").textContent = t.personality[3];
+      introImages.forEach((img, index) => {
+        img.dataset.caption = t.captions[index];
+      });
+      document.getElementById("portfolioEyebrow").textContent = t.portfolioEyebrow;
+      document.getElementById("portfolioTitle").textContent = t.portfolioTitle;
+      document.getElementById("portfolioDescription").textContent = t.portfolioDescription;
+      document.getElementById("honorsEyebrow").textContent = t.honorsEyebrow;
+      document.getElementById("honorsTitle").textContent = t.honorsTitle;
+      document.getElementById("honorsDescription").textContent = t.honorsDescription;
+      document.getElementById("honor1").textContent = t.honors[0];
+      document.getElementById("honor2").textContent = t.honors[1];
+      document.getElementById("honor3").textContent = t.honors[2];
+      document.getElementById("socialEyebrow").textContent = t.socialEyebrow;
+      document.getElementById("socialTitle").textContent = t.socialTitle;
+      document.getElementById("socialDescription").textContent = t.socialDescription;
+      document.getElementById("socialLinkedInName").textContent = t.socialLinkedInName;
+      document.getElementById("modalEyebrow").textContent = t.modalEyebrow;
+      closeModal.textContent = t.close;
+      updatePortfolioCards(lang);
+      updateIntroVisual(introIndex);
+      languageButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === lang);
+      });
+    };
+
+    const startExperience = async (lang) => {
+      applyLanguage(lang);
+      introDismissed = false;
+      introSoundPlayed = false;
+      languageGate.classList.add("opening");
+      setTimeout(() => {
+        languageGate.classList.add("hidden");
+        introScreen.classList.remove("idle");
+        introName.style.animation = "none";
+        introWelcome.style.animation = "none";
+        void introName.offsetWidth;
+        introName.style.animation = "";
+        introWelcome.style.animation = "";
+        playIntroSound();
+        clearTimeout(introAutoTimer);
+        introAutoTimer = setTimeout(() => {
+          dismissIntro();
+        }, 5000);
+      }, 980);
+    };
+
+    languageButtons.forEach((button) => {
+      button.addEventListener("click", () => startExperience(button.dataset.lang));
+    });
 
     const dismissIntro = () => {
       if (introDismissed) return;
@@ -708,10 +1066,6 @@
       introScreen.classList.add("hidden");
       pageShell.classList.add("ready");
     };
-
-    setTimeout(() => {
-      dismissIntro();
-    }, 5000);
 
     introSkip.addEventListener("click", dismissIntro);
 
@@ -774,6 +1128,7 @@
     const modalDescription = document.getElementById("modalDescription");
     const modalImage = document.getElementById("modalImage");
     const closeModal = document.getElementById("closeModal");
+    applyLanguage(currentLang);
 
     const modalVisuals = {
       1: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='55%' stop-color='%23233963'/><stop offset='100%' stop-color='%23090d16'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m1)'/><circle cx='270' cy='200' r='180' fill='%23ffffff' opacity='0.12'/><rect x='460' y='170' width='520' height='110' rx='22' fill='%23ffffff' opacity='0.14'/><rect x='150' y='420' width='900' height='260' rx='34' fill='%23ffffff' opacity='0.08'/></svg>",
