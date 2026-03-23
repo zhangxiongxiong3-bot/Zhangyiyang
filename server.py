@@ -45,38 +45,6 @@ def save_messages(messages: list[dict]) -> None:
     )
 
 
-def generate_answer(question: str) -> str:
-    text = question.lower()
-    keyword_pairs = [
-        (
-            ("accounting",),
-            "Her background is in accounting, and she is also exploring new links between business, data, and creativity.",
-        ),
-        (
-            ("ai", "sora", "stable diffusion", "comfyui"),
-            "She has built solid hands-on experience in AI animation and AI application workflows, and she is open to discussing those tools further.",
-        ),
-        (
-            ("school", "business school", "graduate", "graduated"),
-            "She graduated from Shanghai Business School, and that experience helped shape both her business perspective and open way of thinking.",
-        ),
-        (
-            ("english", "speaking"),
-            "She has strong spoken English skills and can communicate confidently with international teams.",
-        ),
-        (
-            ("career", "job", "future"),
-            "She sees career growth as the natural result of continuous learning, practice, and long-term development.",
-        ),
-    ]
-
-    for keywords, answer in keyword_pairs:
-        if any(keyword in text for keyword in keywords):
-            return answer
-
-    return "Thanks for your message. It has been saved, and visitors can now see this public Q and A on the board."
-
-
 class AppHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
@@ -156,7 +124,8 @@ class AppHandler(SimpleHTTPRequestHandler):
             entry = {
                 "id": len(messages) + 1,
                 "question": question,
-                "answer": generate_answer(question),
+                "answer": "",
+                "status": "pending",
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
             messages.insert(0, entry)

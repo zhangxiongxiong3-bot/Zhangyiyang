@@ -552,6 +552,20 @@
       color: var(--muted);
       line-height: 1.75;
     }
+    .message-card-answer.pending {
+      color: rgba(246,244,239,0.48);
+      font-style: italic;
+    }
+    .message-card-status {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: rgba(246,244,239,0.48);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
     .message-card time {
       font-size: 0.82rem;
       letter-spacing: 0.04em;
@@ -1142,6 +1156,7 @@
         boardSubmit: "Submit",
         boardQuestionLabel: "Visitor Question",
         boardAnswerLabel: "Reply",
+        boardPending: "Waiting for reply",
         boardLoading: "Loading public messages...",
         boardSaving: "Saving your message...",
         boardError: "The message could not be saved right now. Please try again.",
@@ -1224,6 +1239,7 @@
         boardSubmit: "提交留言",
         boardQuestionLabel: "访客留言",
         boardAnswerLabel: "回复",
+        boardPending: "等待回复中",
         boardLoading: "正在加载公开留言……",
         boardSaving: "正在保存你的留言……",
         boardError: "当前无法保存留言，请稍后再试。",
@@ -1618,12 +1634,16 @@
     };
     const renderMessageCard = (entry) => {
       const t = translations[currentLang];
+      const hasAnswer = typeof entry.answer === "string" && entry.answer.trim().length > 0;
+      const answerText = hasAnswer ? entry.answer : t.boardPending;
+      const statusText = hasAnswer ? "" : `<span class="message-card-status">${t.boardPending}</span>`;
       return `
         <article class="message-card">
           <strong>${t.boardQuestionLabel}</strong>
           <p>${entry.question}</p>
+          ${statusText}
           <strong>${t.boardAnswerLabel}</strong>
-          <p>${entry.answer}</p>
+          <p class="message-card-answer${hasAnswer ? "" : " pending"}">${answerText}</p>
           <time datetime="${entry.created_at}">${formatDate(entry.created_at)}</time>
         </article>
       `;
