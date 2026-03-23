@@ -69,6 +69,28 @@
       transition: opacity 1s ease, visibility 1s ease;
     }
     .intro-screen.hidden { opacity: 0; visibility: hidden; }
+    .intro-skip {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font: inherit;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    }
+    .intro-skip:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-2px);
+    }
     .intro-sequence { position: relative; width: min(92vw, 1100px); min-height: 180px; text-align: center; }
     .intro-line {
       position: absolute;
@@ -159,6 +181,18 @@
     .section-copy h2,
     .modal-copy h3 { margin: 0; font-family: var(--title-font); }
     .profile-meta h1 { font-size: clamp(2.2rem, 3vw, 3rem); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.02; }
+    .profile-heading-cn {
+      margin: 0;
+      font-family: var(--title-font);
+      font-size: clamp(2.2rem, 3vw, 3rem);
+      letter-spacing: 0.06em;
+      line-height: 1.02;
+      color: var(--text);
+    }
+    .profile-education {
+      display: grid;
+      gap: 12px;
+    }
     .profile-meta p,
     .section-copy p,
     .personality-list li,
@@ -355,6 +389,7 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
   <div class="intro-screen" id="introScreen" aria-hidden="true">
+    <button class="intro-skip" id="introSkip" type="button">Skip</button>
     <div class="intro-sequence">
       <p class="intro-line name">Zhang Yiyang</p>
       <p class="intro-line welcome">Welcome to my website</p>
@@ -370,8 +405,12 @@
           </div>
           <div class="profile-meta">
             <h1>Zhang<br />Yiyang</h1>
-            <p>The left side stays fixed while the right side scrolls, creating a calm editorial rhythm. This is your permanent profile photo area.</p>
-            <div class="profile-tags"><span>Elegant</span><span>Warm</span><span>Curious</span><span>Expressive</span></div>
+            <p class="profile-heading-cn">章依杨</p>
+            <div class="profile-education">
+              <p>GRADUATED FROM: SHANGHAI BUSINESS SCHOOL</p>
+              <p>MAJOR: ACCOUNTING</p>
+            </div>
+            <div class="profile-tags"><span>终身学习</span><span>乐观开朗</span><span>永不言弃</span><span>粗中有细</span></div>
           </div>
         </section>
       </aside>
@@ -490,10 +529,21 @@
   <script>
     const introScreen = document.getElementById("introScreen");
     const pageShell = document.getElementById("pageShell");
-    setTimeout(() => {
+    const introSkip = document.getElementById("introSkip");
+    let introDismissed = false;
+
+    const dismissIntro = () => {
+      if (introDismissed) return;
+      introDismissed = true;
       introScreen.classList.add("hidden");
       pageShell.classList.add("ready");
+    };
+
+    setTimeout(() => {
+      dismissIntro();
     }, 6100);
+
+    introSkip.addEventListener("click", dismissIntro);
 
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
