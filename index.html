@@ -509,6 +509,111 @@
       background: rgba(255,255,255,0.1);
       border-color: rgba(255,255,255,0.2);
     }
+    .board-preview {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      display: grid;
+      gap: 14px;
+    }
+    .board-preview-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .board-preview-head h3,
+    .board-preview-empty,
+    .message-card p,
+    .message-card time,
+    .board-form textarea,
+    .board-form input {
+      margin: 0;
+    }
+    .board-preview-head h3 {
+      font-family: var(--title-font);
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .board-preview-empty {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .message-list {
+      display: grid;
+      gap: 12px;
+    }
+    .message-card {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      display: grid;
+      gap: 8px;
+    }
+    .message-card strong {
+      color: var(--text);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+    .message-card p,
+    .message-card time {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .message-card time {
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+    .board-modal-body {
+      display: grid;
+      gap: 18px;
+    }
+    .board-form {
+      display: grid;
+      gap: 12px;
+    }
+    .board-form textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 16px 18px;
+      font: inherit;
+      line-height: 1.7;
+    }
+    .board-form textarea::placeholder {
+      color: rgba(246,244,239,0.38);
+    }
+    .board-form-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .board-status {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .board-submit {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+    }
     .honor-tiles {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -840,6 +945,14 @@
             <span class="panel-note" id="introPanelNote">Click the panel to open the full story</span>
             <button class="panel-link" id="introPanelLink" type="button">Open Section</button>
           </div>
+          <div class="board-preview" id="boardPreview">
+            <div class="board-preview-head">
+              <h3 id="boardPreviewTitle">Public Message Board</h3>
+              <span class="panel-note" id="boardPreviewNote">All visitors can read the full Q&A</span>
+            </div>
+            <p class="board-preview-empty" id="boardPreviewEmpty">No messages yet. Click “Open Section” to leave the first public question.</p>
+            <div class="message-list" id="boardPreviewList"></div>
+          </div>
         </section>
         <section class="content-section section-portfolio reveal interactive-panel" id="portfolio" data-section="portfolio">
           <p class="panel-ink" id="panelInkPortfolio">藏</p>
@@ -949,6 +1062,24 @@
       <ul class="section-modal-list" id="sectionModalList"></ul>
     </div>
   </div>
+  <div class="section-modal" id="boardModal" aria-hidden="true">
+    <div class="section-modal-panel">
+      <button class="section-modal-close" id="boardModalClose" type="button">×</button>
+      <span class="eyebrow" id="boardModalEyebrow">Public Board</span>
+      <h3 id="boardModalTitle">Leave a Public Message</h3>
+      <p id="boardModalDescription">Ask a question or leave a note here. Your message and reply will be saved and visible to all visitors.</p>
+      <div class="board-modal-body">
+        <form class="board-form" id="boardForm">
+          <textarea id="boardQuestion" placeholder="Type your question or message here..."></textarea>
+          <div class="board-form-actions">
+            <p class="board-status" id="boardStatus">Messages are public and will appear below the section after submission.</p>
+            <button class="board-submit" id="boardSubmit" type="submit">Submit</button>
+          </div>
+        </form>
+        <div class="message-list" id="boardModalList"></div>
+      </div>
+    </div>
+  </div>
   <script>
     const translations = {
       en: {
@@ -1016,6 +1147,20 @@
         socialLinkedInName: "Zhang Yiyang",
         modalEyebrow: "Project Detail",
         sectionModalEyebrow: "Section Detail",
+        boardPreviewTitle: "Public Message Board",
+        boardPreviewNote: "All visitors can read the full Q&A",
+        boardPreviewEmpty: "No messages yet. Click “Open Section” to leave the first public question.",
+        boardModalEyebrow: "Public Board",
+        boardModalTitle: "Leave a Public Message",
+        boardModalDescription: "Ask a question or leave a note here. Your message and reply will be saved and visible to all visitors.",
+        boardPlaceholder: "Type your question or message here...",
+        boardStatus: "Messages are public and will appear below the section after submission.",
+        boardSubmit: "Submit",
+        boardQuestionLabel: "Visitor Question",
+        boardAnswerLabel: "Reply",
+        boardLoading: "Loading public messages...",
+        boardSaving: "Saving your message...",
+        boardError: "The message could not be saved right now. Please try again.",
         close: "Close",
         projectCta: "Click to view"
       },
@@ -1084,6 +1229,20 @@
         socialLinkedInName: "章依杨",
         modalEyebrow: "项目详情",
         sectionModalEyebrow: "部分详情",
+        boardPreviewTitle: "公开留言板",
+        boardPreviewNote: "所有访客都可以浏览完整问答",
+        boardPreviewEmpty: "暂时还没有留言。点击“查看内容”留下第一条公开问题吧。",
+        boardModalEyebrow: "公开留言",
+        boardModalTitle: "留下你的问题或留言",
+        boardModalDescription: "你可以在这里提出问题或留下想说的话。留言与回复都会保存到后端，并向所有访客公开显示。",
+        boardPlaceholder: "请输入你的问题或留言内容……",
+        boardStatus: "提交后，留言会保留在个人介绍区下方，所有访客都可以看到。",
+        boardSubmit: "提交留言",
+        boardQuestionLabel: "访客留言",
+        boardAnswerLabel: "回复",
+        boardLoading: "正在加载公开留言……",
+        boardSaving: "正在保存你的留言……",
+        boardError: "当前无法保存留言，请稍后再试。",
         close: "关闭",
         projectCta: "点击查看"
       }
@@ -1250,9 +1409,20 @@
       setText("socialLinkedInName", t.socialLinkedInName);
       setText("modalEyebrow", t.modalEyebrow);
       setText("sectionModalEyebrow", t.sectionModalEyebrow);
+      setText("boardPreviewTitle", t.boardPreviewTitle);
+      setText("boardPreviewNote", t.boardPreviewNote);
+      setText("boardPreviewEmpty", t.boardPreviewEmpty);
+      setText("boardModalEyebrow", t.boardModalEyebrow);
+      setText("boardModalTitle", t.boardModalTitle);
+      setText("boardModalDescription", t.boardModalDescription);
+      setText("boardStatus", t.boardStatus);
+      setText("boardSubmit", t.boardSubmit);
+      const questionInput = document.getElementById("boardQuestion");
+      if (questionInput) questionInput.placeholder = t.boardPlaceholder;
       closeModal.textContent = t.close;
       updatePortfolioCards(lang);
       updateIntroVisual(introIndex);
+      renderMessages();
       languageButtons.forEach((button) => {
         button.classList.toggle("active", button.dataset.lang === lang);
       });
@@ -1356,7 +1526,15 @@
     const sectionModalDescription = document.getElementById("sectionModalDescription");
     const sectionModalList = document.getElementById("sectionModalList");
     const sectionModalClose = document.getElementById("sectionModalClose");
-    applyLanguage(currentLang);
+    const boardModal = document.getElementById("boardModal");
+    const boardModalClose = document.getElementById("boardModalClose");
+    const boardForm = document.getElementById("boardForm");
+    const boardQuestion = document.getElementById("boardQuestion");
+    const boardStatus = document.getElementById("boardStatus");
+    const boardPreviewList = document.getElementById("boardPreviewList");
+    const boardPreviewEmpty = document.getElementById("boardPreviewEmpty");
+    const boardModalList = document.getElementById("boardModalList");
+    let publicMessages = [];
 
     const modalVisuals = {
       1: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='55%' stop-color='%23233963'/><stop offset='100%' stop-color='%23090d16'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m1)'/><circle cx='270' cy='200' r='180' fill='%23ffffff' opacity='0.12'/><rect x='460' y='170' width='520' height='110' rx='22' fill='%23ffffff' opacity='0.14'/><rect x='150' y='420' width='900' height='260' rx='34' fill='%23ffffff' opacity='0.08'/></svg>",
@@ -1412,6 +1590,12 @@
       };
     };
     const openSectionModal = (section) => {
+      if (section === "introduction") {
+        boardModal.classList.add("open");
+        boardModal.setAttribute("aria-hidden", "false");
+        boardQuestion.focus();
+        return;
+      }
       const detail = getSectionDetail(section, currentLang);
       sectionModalTitle.textContent = detail.title;
       sectionModalDescription.textContent = detail.description;
@@ -1422,6 +1606,51 @@
     const hideSectionModal = () => {
       sectionModal.classList.remove("open");
       sectionModal.setAttribute("aria-hidden", "true");
+    };
+    const hideBoardModal = () => {
+      boardModal.classList.remove("open");
+      boardModal.setAttribute("aria-hidden", "true");
+    };
+    const formatDate = (value) => {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleString(currentLang === "zh" ? "zh-CN" : "en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    };
+    const renderMessageCard = (entry) => {
+      const t = translations[currentLang];
+      return `
+        <article class="message-card">
+          <strong>${t.boardQuestionLabel}</strong>
+          <p>${entry.question}</p>
+          <strong>${t.boardAnswerLabel}</strong>
+          <p>${entry.answer}</p>
+          <time datetime="${entry.created_at}">${formatDate(entry.created_at)}</time>
+        </article>
+      `;
+    };
+    const renderMessages = () => {
+      const hasMessages = publicMessages.length > 0;
+      boardPreviewEmpty.style.display = hasMessages ? "none" : "";
+      boardPreviewList.innerHTML = hasMessages ? publicMessages.map(renderMessageCard).join("") : "";
+      boardModalList.innerHTML = hasMessages ? publicMessages.map(renderMessageCard).join("") : "";
+    };
+    const loadMessages = async () => {
+      try {
+        const response = await fetch("/api/messages");
+        if (!response.ok) throw new Error("load failed");
+        publicMessages = await response.json();
+        renderMessages();
+      } catch (error) {
+        boardPreviewEmpty.style.display = "";
+        boardPreviewEmpty.textContent = translations[currentLang].boardError;
+        boardModalList.innerHTML = "";
+      }
     };
     document.querySelectorAll(".portfolio-card").forEach((card) => {
       card.addEventListener("click", (event) => {
@@ -1445,16 +1674,45 @@
     });
     closeModal.addEventListener("click", hideModal);
     sectionModalClose.addEventListener("click", hideSectionModal);
+    boardModalClose.addEventListener("click", hideBoardModal);
+    boardForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const question = boardQuestion.value.trim();
+      if (!question) return;
+      boardStatus.textContent = translations[currentLang].boardSaving;
+      try {
+        const response = await fetch("/api/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        if (!response.ok) throw new Error("save failed");
+        const saved = await response.json();
+        publicMessages.unshift(saved);
+        renderMessages();
+        boardQuestion.value = "";
+        boardStatus.textContent = translations[currentLang].boardStatus;
+        hideBoardModal();
+      } catch (error) {
+        boardStatus.textContent = translations[currentLang].boardError;
+      }
+    });
     modal.addEventListener("click", (event) => {
       if (event.target === modal) hideModal();
     });
     sectionModal.addEventListener("click", (event) => {
       if (event.target === sectionModal) hideSectionModal();
     });
+    boardModal.addEventListener("click", (event) => {
+      if (event.target === boardModal) hideBoardModal();
+    });
     window.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && modal.classList.contains("open")) hideModal();
       if (event.key === "Escape" && sectionModal.classList.contains("open")) hideSectionModal();
+      if (event.key === "Escape" && boardModal.classList.contains("open")) hideBoardModal();
     });
+    applyLanguage(currentLang);
+    loadMessages();
   </script>
 </body>
 </html>
