@@ -937,10 +937,49 @@
         max-width: none;
       }
     }
+    .music-player {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 30;
+      display: inline-flex;
+    }
+    .music-button {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(0,0,0,0.9));
+      box-shadow: var(--shadow), 0 0 0 6px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.06);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .music-button:hover {
+      transform: translateY(-1px) scale(1.03);
+      border-color: rgba(255,255,255,0.36);
+      box-shadow: var(--shadow), 0 12px 30px rgba(0,0,0,0.4);
+    }
+    .music-button.playing {
+      box-shadow: var(--shadow), 0 0 18px rgba(255,255,255,0.2), inset 0 0 0 2px rgba(255,255,255,0.12);
+    }
+    .music-icon {
+      font-size: 1.4rem;
+      color: #f5f5f5;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <audio id="mainAudio" src="./蜻蜓格格 - 钢琴曲《安和桥》纯音乐.mp3" autoplay loop></audio>
   <div class="grain" aria-hidden="true"></div>
+  <div class="music-player" aria-live="polite">
+    <button class="music-button" id="musicToggle" type="button" aria-label="Pause background music">
+      <span class="music-icon">♪</span>
+    </button>
+  </div>
   <div class="language-gate" id="languageGate">
     <div class="language-bloom" aria-hidden="true"></div>
     <div class="language-panel">
@@ -1152,6 +1191,35 @@
     </div>
   </div>
   <script>
+    const mainAudio = document.getElementById("mainAudio");
+    const musicToggle = document.getElementById("musicToggle");
+
+    if (mainAudio && musicToggle) {
+      const setMusicState = (playing) => {
+        musicToggle.classList.toggle("playing", playing);
+        musicToggle.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+      };
+
+      const tryAutoplay = () => {
+        const attempt = mainAudio.play();
+        if (attempt && typeof attempt.catch === "function") {
+          attempt.catch(() => setMusicState(false));
+        }
+      };
+
+      musicToggle.addEventListener("click", () => {
+        if (mainAudio.paused) {
+          mainAudio.play();
+        } else {
+          mainAudio.pause();
+        }
+      });
+
+      mainAudio.addEventListener("play", () => setMusicState(true));
+      mainAudio.addEventListener("pause", () => setMusicState(false));
+      tryAutoplay();
+    }
+
     const translations = {
       en: {
         htmlLang: "en",
