@@ -940,18 +940,18 @@
     .music-player {
       position: fixed;
       top: 18px;
-      left: 18px;
+      left: 8px;
       z-index: 30;
       display: inline-flex;
     }
     .music-button {
       position: relative;
-      width: 60px;
-      height: 60px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.24);
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(0,0,0,0.9));
-      box-shadow: var(--shadow), 0 0 0 6px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.06);
+      box-shadow: var(--shadow), 0 0 0 4px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.06);
       cursor: pointer;
       display: grid;
       place-items: center;
@@ -960,13 +960,13 @@
     .music-button:hover {
       transform: translateY(-1px) scale(1.03);
       border-color: rgba(255,255,255,0.36);
-      box-shadow: var(--shadow), 0 12px 30px rgba(0,0,0,0.4);
+      box-shadow: var(--shadow), 0 10px 24px rgba(0,0,0,0.4);
     }
     .music-button.playing {
       box-shadow: var(--shadow), 0 0 18px rgba(255,255,255,0.2), inset 0 0 0 2px rgba(255,255,255,0.12);
     }
     .music-icon {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       color: #f5f5f5;
       pointer-events: none;
     }
