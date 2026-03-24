@@ -491,11 +491,11 @@
     .portfolio-card small { color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; }
     .social-list { display: grid; gap: 12px; margin-top: 14px; }
     .social-item {
-      text-decoration: none;
       color: var(--text);
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       padding: 14px 16px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.08);
@@ -503,6 +503,22 @@
       transition: transform 0.3s ease, background 0.3s ease;
     }
     .social-item:hover { transform: translateX(6px); background: rgba(255,255,255,0.07); }
+    .copy-btn {
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.22);
+      transform: translateY(-1px);
+    }
     .panel-actions {
       position: relative;
       z-index: 1;
@@ -1137,9 +1153,18 @@
               <p id="socialDescription">通过微信、邮箱或电话与我联系。</p>
             </div>
             <div class="social-list">
-              <div class="social-item"><strong>微信号</strong><span>zyybearlove</span></div>
-              <div class="social-item"><strong>Email</strong><span>zhangyiyang189@gmail.com</span></div>
-              <div class="social-item"><strong>手机号</strong><span>18001966872</span></div>
+              <div class="social-item">
+                <div><strong>微信号</strong><span style="margin-left:8px;">zyybearlove</span></div>
+                <button class="copy-btn" data-copy="zyybearlove" type="button">复制</button>
+              </div>
+              <div class="social-item">
+                <div><strong>Email</strong><span style="margin-left:8px;">zhangyiyang189@gmail.com</span></div>
+                <button class="copy-btn" data-copy="zhangyiyang189@gmail.com" type="button">复制</button>
+              </div>
+              <div class="social-item">
+                <div><strong>手机号</strong><span style="margin-left:8px;">18001966872</span></div>
+                <button class="copy-btn" data-copy="18001966872" type="button">复制</button>
+              </div>
             </div>
           </div>
           <div class="panel-actions">
@@ -1190,6 +1215,31 @@
     </div>
   </div>
   <script>
+    const copyText = async (value, button) => {
+      if (!value) return;
+      try {
+        await navigator.clipboard.writeText(value);
+        if (button) {
+          const original = button.textContent;
+          button.textContent = "已复制";
+          setTimeout(() => { button.textContent = original; }, 1200);
+        }
+      } catch (error) {
+        console.error("Copy failed", error);
+      }
+    };
+
+    const registerCopyButtons = (root = document) => {
+      root.querySelectorAll(".copy-btn").forEach((button) => {
+        if (button.dataset.bound === "true") return;
+        button.dataset.bound = "true";
+        button.addEventListener("click", () => {
+          const value = button.dataset.copy || button.previousElementSibling?.textContent?.trim();
+          copyText(value, button);
+        });
+      });
+    };
+
     const mainAudio = document.getElementById("mainAudio");
     const musicToggle = document.getElementById("musicToggle");
 
@@ -1218,6 +1268,7 @@
       mainAudio.addEventListener("pause", () => setMusicState(false));
       tryAutoplay();
     }
+    registerCopyButtons();
 
     const translations = {
       en: {
@@ -1742,9 +1793,9 @@
         title: t.socialTitle,
         description: t.socialDescription,
         items: [
-          "WeChat · zyybearlove",
-          "Email · zhangyiyang189@gmail.com",
-          "Phone · 18001966872"
+          { label: currentLang === "zh" ? "微信号" : "WeChat", value: "zyybearlove" },
+          { label: "Email", value: "zhangyiyang189@gmail.com" },
+          { label: currentLang === "zh" ? "手机号" : "Phone", value: "18001966872" }
         ]
       };
     };
@@ -1758,7 +1809,11 @@
       const detail = getSectionDetail(section, currentLang);
       sectionModalTitle.textContent = detail.title;
       sectionModalDescription.textContent = detail.description;
-      sectionModalList.innerHTML = detail.items.map((item) => `<li>${item}</li>`).join("");
+      sectionModalList.innerHTML = detail.items.map((item) => {
+        if (typeof item === "string") return `<li>${item}</li>`;
+        return `<li>${item.label}：${item.value} <button class="copy-btn" data-copy="${item.value}" type="button">复制</button></li>`;
+      }).join("");
+      registerCopyButtons(sectionModalList);
       sectionModal.classList.add("open");
       sectionModal.setAttribute("aria-hidden", "false");
     };
