@@ -738,11 +738,61 @@
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
     }
+    .honor-photo img,
+    .honor-zoom-btn {
+      cursor: zoom-in;
+    }
+    .honor-zoom-btn {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+      background: transparent;
+      display: block;
+      font: inherit;
+    }
     .honor-modal-list img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 42;
+      display: grid;
+      place-items: center;
+      padding: 52px 22px 22px;
+      background: rgba(0,0,0,0.88);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+    .image-lightbox.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .image-lightbox img {
+      max-width: min(1120px, 96vw);
+      max-height: 86vh;
+      object-fit: contain;
+      border-radius: 18px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.48);
+    }
+    .image-lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font: inherit;
+      font-size: 1.5rem;
+      cursor: pointer;
     }
     .section-modal {
       position: fixed;
@@ -1274,6 +1324,10 @@
       </div>
     </div>
   </div>
+  <div class="image-lightbox" id="imageLightbox" aria-hidden="true">
+    <button class="image-lightbox-close" id="imageLightboxClose" type="button">×</button>
+    <img id="imageLightboxPhoto" alt="" src="" />
+  </div>
   <script>
     const copyText = async (value, button) => {
       if (!value) return;
@@ -1784,6 +1838,9 @@
     const sectionModalDescription = document.getElementById("sectionModalDescription");
     const sectionModalList = document.getElementById("sectionModalList");
     const sectionModalClose = document.getElementById("sectionModalClose");
+    const imageLightbox = document.getElementById("imageLightbox");
+    const imageLightboxPhoto = document.getElementById("imageLightboxPhoto");
+    const imageLightboxClose = document.getElementById("imageLightboxClose");
     const boardModal = document.getElementById("boardModal");
     const boardModalClose = document.getElementById("boardModalClose");
     const boardForm = document.getElementById("boardForm");
@@ -1826,6 +1883,18 @@
     const hideModal = () => {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
+    };
+    const openImageLightbox = (img) => {
+      if (!img) return;
+      imageLightboxPhoto.src = img.currentSrc || img.getAttribute("src");
+      imageLightboxPhoto.alt = img.alt || "";
+      imageLightbox.classList.add("open");
+      imageLightbox.setAttribute("aria-hidden", "false");
+    };
+    const hideImageLightbox = () => {
+      imageLightbox.classList.remove("open");
+      imageLightbox.setAttribute("aria-hidden", "true");
+      imageLightboxPhoto.removeAttribute("src");
     };
     const getSectionDetail = (section, lang) => {
       const t = translations[lang];
@@ -1875,7 +1944,7 @@
       sectionModalList.classList.toggle("honor-modal-list", section === "honors");
       if (section === "honors") {
         sectionModalList.innerHTML = Array.from(document.querySelectorAll(".honor-wall img")).map((img) => {
-          return `<li><img alt="${img.alt}" src="${img.getAttribute("src")}" /></li>`;
+          return `<li><button class="honor-zoom-btn" type="button"><img alt="${img.alt}" src="${img.getAttribute("src")}" /></button></li>`;
         }).join("");
       } else {
         sectionModalList.innerHTML = detail.items.map((item) => {
@@ -1955,9 +2024,21 @@
         openModal(card);
       });
     });
+    document.querySelectorAll(".honor-wall img").forEach((img) => {
+      img.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openImageLightbox(img);
+      });
+    });
+    sectionModalList.addEventListener("click", (event) => {
+      const img = event.target.closest(".honor-modal-list img");
+      if (!img) return;
+      event.stopPropagation();
+      openImageLightbox(img);
+    });
     document.querySelectorAll(".interactive-panel").forEach((panel) => {
       panel.addEventListener("click", (event) => {
-        if (event.target.closest(".portfolio-card, .social-item, .panel-link")) {
+        if (event.target.closest(".portfolio-card, .social-item, .panel-link, .honor-photo")) {
           return;
         }
         const section = panel.dataset.section;
@@ -1973,6 +2054,7 @@
     });
     closeModal.addEventListener("click", hideModal);
     sectionModalClose.addEventListener("click", hideSectionModal);
+    imageLightboxClose.addEventListener("click", hideImageLightbox);
     boardModalClose.addEventListener("click", hideBoardModal);
     boardToggle.addEventListener("click", () => {
       boardExpanded = !boardExpanded;
@@ -2013,10 +2095,17 @@
     sectionModal.addEventListener("click", (event) => {
       if (event.target === sectionModal) hideSectionModal();
     });
+    imageLightbox.addEventListener("click", (event) => {
+      if (event.target === imageLightbox) hideImageLightbox();
+    });
     boardModal.addEventListener("click", (event) => {
       if (event.target === boardModal) hideBoardModal();
     });
     window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && imageLightbox.classList.contains("open")) {
+        hideImageLightbox();
+        return;
+      }
       if (event.key === "Escape" && modal.classList.contains("open")) hideModal();
       if (event.key === "Escape" && sectionModal.classList.contains("open")) hideSectionModal();
       if (event.key === "Escape" && boardModal.classList.contains("open")) hideBoardModal();
