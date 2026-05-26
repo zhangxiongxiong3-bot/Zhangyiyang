@@ -885,7 +885,8 @@
     }
     .modal-image { min-height: 360px; border-radius: 22px; }
     .modal-actions { display: flex; gap: 10px; padding-top: 6px; }
-    .modal-actions button {
+    .modal-actions button,
+    .modal-link {
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(255,255,255,0.06);
       color: var(--text);
@@ -893,6 +894,8 @@
       border-radius: 16px;
       cursor: pointer;
       font: inherit;
+      text-decoration: none;
+      line-height: 1.2;
     }
     @keyframes introName {
       0% {
@@ -1205,29 +1208,53 @@
               <p id="portfolioDescription">This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.</p>
             </div>
             <div class="portfolio-grid" id="portfolioGrid">
-            <article class="portfolio-card" data-project="story" data-title="Visual Story Project" data-type="Editorial Layout" data-description="A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically." data-image="1">
-              <div class="portfolio-thumb"><img alt="Portfolio placeholder 1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='50%' stop-color='%23233963'/><stop offset='100%' stop-color='%230a0d16'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p1)'/><circle cx='320' cy='240' r='170' fill='%23ffffff' opacity='0.1'/><rect x='520' y='170' width='420' height='110' rx='22' fill='%23ffffff' opacity='0.12'/><rect x='520' y='336' width='320' height='36' rx='18' fill='%23ffffff' opacity='0.16'/><rect x='150' y='430' width='900' height='230' rx='34' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3 data-project-title>Visual Story Project</h3>
-              <p data-project-description>A polished presentation slot for a design-led or personal narrative project.</p>
-              <small data-project-cta>Click to view</small>
+            <article class="portfolio-card" data-project="redbookMarketing" data-image="1">
+              <div class="portfolio-thumb"><img alt="Xiaohongshu marketing account visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236b1d2b'/><stop offset='55%' stop-color='%23c8475a'/><stop offset='100%' stop-color='%23130a0d'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p1)'/><circle cx='270' cy='230' r='150' fill='%23ffffff' opacity='0.16'/><rect x='500' y='160' width='430' height='92' rx='24' fill='%23ffffff' opacity='0.18'/><rect x='150' y='430' width='900' height='210' rx='34' fill='%23ffffff' opacity='0.1'/></svg>" /></div>
+              <h3 data-project-title>小红书营销号：爱吃瓜的滚滚酱</h3>
+              <p data-project-description>围绕热点内容与娱乐话题运营的内容营销账号。</p>
+              <small data-project-cta>点击查看</small>
             </article>
-            <article class="portfolio-card" data-project="web" data-title="Web Design Case" data-type="Interactive Experience" data-description="Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece." data-image="2">
-              <div class="portfolio-thumb"><img alt="Portfolio placeholder 2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23181818'/><stop offset='55%' stop-color='%23393939'/><stop offset='100%' stop-color='%23090909'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p2)'/><rect x='160' y='130' width='880' height='540' rx='34' fill='%23ffffff' opacity='0.08'/><rect x='240' y='230' width='720' height='90' rx='20' fill='%23ffffff' opacity='0.14'/><rect x='240' y='378' width='520' height='38' rx='19' fill='%23ffffff' opacity='0.12'/><rect x='240' y='456' width='420' height='38' rx='19' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3 data-project-title>Web Design Case</h3>
-              <p data-project-description>A clean project tile for interface design, coding work, or portfolio storytelling.</p>
-              <small data-project-cta>Click to view</small>
+            <article class="portfolio-card" data-project="aiShortDrama" data-image="2">
+              <div class="portfolio-thumb"><img alt="AI short drama account visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b1b2a'/><stop offset='52%' stop-color='%233c718e'/><stop offset='100%' stop-color='%23070a10'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p2)'/><rect x='150' y='120' width='900' height='560' rx='42' fill='%23ffffff' opacity='0.09'/><circle cx='370' cy='330' r='120' fill='%23ffffff' opacity='0.14'/><path d='M650 275l180 105-180 105z' fill='%23ffffff' opacity='0.18'/></svg>" /></div>
+              <h3 data-project-title>小红书AI短剧账号：小熊小熊爱学习</h3>
+              <p data-project-description>用 AI 生成短剧内容，探索脚本、画面与账号运营结合。</p>
+              <small data-project-cta>点击查看</small>
             </article>
-            <article class="portfolio-card" data-project="brand" data-title="Brand Concept" data-type="Creative Direction" data-description="Use this space for visual branding, campaign concepts, or curated image-based work with a short summary." data-image="3">
-              <div class="portfolio-thumb"><img alt="Portfolio placeholder 3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236d8b8f'/><stop offset='55%' stop-color='%23bfd3d0'/><stop offset='100%' stop-color='%23516366'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p3)'/><circle cx='860' cy='200' r='180' fill='%23ffffff' opacity='0.22'/><rect x='120' y='110' width='360' height='580' rx='30' fill='%23ffffff' opacity='0.24'/><rect x='560' y='310' width='410' height='82' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='560' y='444' width='310' height='36' rx='18' fill='%23ffffff' opacity='0.16'/></svg>" /></div>
-              <h3 data-project-title>Brand Concept</h3>
-              <p data-project-description>An adaptable card for a visual identity or campaign proposal with room to grow.</p>
-              <small data-project-cta>Click to view</small>
+            <article class="portfolio-card" data-project="metaverse" data-image="3">
+              <div class="portfolio-thumb"><img alt="Metaverse work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%232b2346'/><stop offset='50%' stop-color='%237864a8'/><stop offset='100%' stop-color='%23120d20'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p3)'/><circle cx='830' cy='230' r='180' fill='%23ffffff' opacity='0.16'/><rect x='180' y='210' width='360' height='360' rx='36' fill='%23ffffff' opacity='0.13'/><path d='M230 570h660l-150 110H90z' fill='%23ffffff' opacity='0.09'/></svg>" /></div>
+              <h3 data-project-title>元宇宙作品</h3>
+              <p data-project-description>围绕虚拟空间、沉浸式展示与数字体验完成的元宇宙作品。</p>
+              <small data-project-cta>点击查看</small>
             </article>
-            <article class="portfolio-card" data-project="archive" data-title="Personal Archive" data-type="Photo Narrative" data-description="A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences." data-image="4">
-              <div class="portfolio-thumb"><img alt="Portfolio placeholder 4" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p4)'/><path d='M0 600C170 540 300 540 430 606s310 92 456 20 232-76 314-52V800H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/><rect x='170' y='306' width='520' height='40' rx='20' fill='%23ffffff' opacity='0.12'/><rect x='170' y='390' width='420' height='40' rx='20' fill='%23ffffff' opacity='0.08'/></svg>" /></div>
-              <h3 data-project-title>Personal Archive</h3>
-              <p data-project-description>A visual archive card for storytelling through selected moments and polished layouts.</p>
-              <small data-project-cta>Click to view</small>
+            <article class="portfolio-card" data-project="graphxr" data-image="4">
+              <div class="portfolio-thumb"><img alt="GraphXR work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230c2d2a'/><stop offset='55%' stop-color='%23479b88'/><stop offset='100%' stop-color='%23071212'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p4)'/><g stroke='%23ffffff' stroke-opacity='0.22' stroke-width='12'><path d='M280 270L560 190L815 350L650 570L330 520z'/><path d='M560 190L650 570'/><path d='M280 270L815 350'/></g><g fill='%23ffffff' opacity='0.22'><circle cx='280' cy='270' r='48'/><circle cx='560' cy='190' r='58'/><circle cx='815' cy='350' r='52'/><circle cx='650' cy='570' r='54'/><circle cx='330' cy='520' r='46'/></g></svg>" /></div>
+              <h3 data-project-title>GraphXR作品</h3>
+              <p data-project-description>使用 GraphXR 进行知识图谱、关系网络与数据可视化表达。</p>
+              <small data-project-cta>点击查看</small>
+            </article>
+            <article class="portfolio-card" data-project="invoiceBoard" data-image="5" data-url="https://invoice-board.onrender.com">
+              <div class="portfolio-thumb"><img alt="Invoice board web work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p5' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%232e3138'/><stop offset='55%' stop-color='%23727a82'/><stop offset='100%' stop-color='%23080809'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p5)'/><rect x='150' y='120' width='900' height='560' rx='38' fill='%23ffffff' opacity='0.1'/><rect x='245' y='220' width='710' height='70' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='245' y='360' width='300' height='160' rx='24' fill='%23ffffff' opacity='0.14'/><rect x='590' y='360' width='365' height='160' rx='24' fill='%23ffffff' opacity='0.12'/></svg>" /></div>
+              <h3 data-project-title>记账网页作品</h3>
+              <p data-project-description>一个在线记账网页作品，可通过链接直接访问。</p>
+              <small data-project-cta>点击查看</small>
+            </article>
+            <article class="portfolio-card" data-project="appBuilder" data-image="6">
+              <div class="portfolio-thumb"><img alt="AppBuilder work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p6' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2331251a'/><stop offset='55%' stop-color='%23a8874e'/><stop offset='100%' stop-color='%23100d08'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p6)'/><rect x='210' y='100' width='330' height='600' rx='46' fill='%23ffffff' opacity='0.13'/><rect x='620' y='160' width='360' height='120' rx='26' fill='%23ffffff' opacity='0.15'/><rect x='620' y='340' width='250' height='58' rx='20' fill='%23ffffff' opacity='0.14'/><rect x='620' y='440' width='310' height='58' rx='20' fill='%23ffffff' opacity='0.1'/></svg>" /></div>
+              <h3 data-project-title>AppBuilder作品</h3>
+              <p data-project-description>基于 App Builder 完成的应用搭建与功能原型实践。</p>
+              <small data-project-cta>点击查看</small>
+            </article>
+            <article class="portfolio-card" data-project="powerbi" data-image="7">
+              <div class="portfolio-thumb"><img alt="Power BI work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p7' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23232112'/><stop offset='55%' stop-color='%23c19b37'/><stop offset='100%' stop-color='%230f0c06'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p7)'/><rect x='150' y='140' width='900' height='520' rx='34' fill='%23ffffff' opacity='0.09'/><rect x='260' y='420' width='95' height='150' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='430' y='320' width='95' height='250' rx='18' fill='%23ffffff' opacity='0.22'/><rect x='600' y='230' width='95' height='340' rx='18' fill='%23ffffff' opacity='0.18'/><circle cx='850' cy='360' r='115' fill='%23ffffff' opacity='0.14'/></svg>" /></div>
+              <h3 data-project-title>Power BI作品</h3>
+              <p data-project-description>使用 Power BI 进行数据看板、指标分析与商业可视化呈现。</p>
+              <small data-project-cta>点击查看</small>
+            </article>
+            <article class="portfolio-card" data-project="dataLabeling" data-image="8">
+              <div class="portfolio-thumb"><img alt="Data labeling work visual" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><defs><linearGradient id='p8' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%231d2733'/><stop offset='55%' stop-color='%235d89b5'/><stop offset='100%' stop-color='%23080b10'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23p8)'/><rect x='160' y='150' width='880' height='500' rx='32' fill='%23ffffff' opacity='0.09'/><rect x='230' y='230' width='320' height='230' rx='28' fill='%23ffffff' opacity='0.14'/><path d='M230 510h320' stroke='%23ffffff' stroke-opacity='0.22' stroke-width='18'/><rect x='640' y='240' width='300' height='48' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='640' y='340' width='230' height='48' rx='18' fill='%23ffffff' opacity='0.13'/><rect x='640' y='440' width='270' height='48' rx='18' fill='%23ffffff' opacity='0.1'/></svg>" /></div>
+              <h3 data-project-title>数据打标签作品</h3>
+              <p data-project-description>围绕数据标注、训练数据整理与模型前置处理完成的实践作品。</p>
+              <small data-project-cta>点击查看</small>
             </article>
             </div>
           </div>
@@ -1293,7 +1320,10 @@
         <h3 id="modalTitle">Project Title</h3>
         <p id="modalType">Project Type</p>
         <p id="modalDescription">Project description.</p>
-        <div class="modal-actions"><button type="button" id="closeModal">Close</button></div>
+        <div class="modal-actions">
+          <a class="modal-link" id="modalProjectLink" href="#" target="_blank" rel="noopener">Open Link</a>
+          <button type="button" id="closeModal">Close</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1434,8 +1464,8 @@
         sectionCta: "Open Section",
         captions: ["City Evening", "Travel Day", "Relaxed Weekend", "Cultural Moment", "Open Landscape", "Floral Scene", "Everyday Moment"],
         portfolioEyebrow: "Portfolio Selection",
-        portfolioTitle: "Interactive Project Gallery",
-        portfolioDescription: "This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.",
+        portfolioTitle: "Selected Works",
+        portfolioDescription: "A compact archive of content operations, AI creation, data visualization, web building, and application practice.",
         honorsEyebrow: "Honors",
         honorsTitle: "Award Wall",
         honorsDescription: "",
@@ -1467,6 +1497,7 @@
         boardError: "The message could not be saved right now. Please try again.",
         close: "Close",
         projectCta: "Click to view",
+        projectOpenLink: "Open Link",
         copyLabel: "Copy",
         copiedLabel: "Copied",
         socialWechat: "WeChat",
@@ -1518,8 +1549,8 @@
         sectionCta: "查看内容",
         captions: ["城市夜色", "旅行时刻", "轻松周末", "文化印象", "自然风景", "花影瞬间", "日常瞬间"],
         portfolioEyebrow: "作品集精选",
-        portfolioTitle: "可互动浏览的作品画廊",
-        portfolioDescription: "这一部分已经为你的作品上传预留好结构。每个卡片都可以点击查看更大的预览与项目说明，让作品集呈现更有互动感。",
+        portfolioTitle: "作品集精选",
+        portfolioDescription: "这里集中展示内容运营、AI创作、元宇宙、数据可视化、网页开发与应用搭建等作品。",
         honorsEyebrow: "所获荣誉",
         honorsTitle: "奖项墙",
         honorsDescription: "",
@@ -1551,6 +1582,7 @@
         boardError: "当前无法保存留言，请稍后再试。",
         close: "关闭",
         projectCta: "点击查看",
+        projectOpenLink: "打开链接",
         copyLabel: "复制",
         copiedLabel: "已复制",
         socialWechat: "微信号",
@@ -1561,16 +1593,24 @@
 
     const projectTranslations = {
       en: {
-        story: { title: "Visual Story Project", type: "Editorial Layout", description: "A placeholder interaction card for future uploaded work. When you replace the image and text, the modal will still work automatically.", cardDescription: "A polished presentation slot for a design-led or personal narrative project." },
-        web: { title: "Web Design Case", type: "Interactive Experience", description: "Another project slot with the same interaction pattern. You can later swap this for a real website, campaign, or showcase piece.", cardDescription: "A clean project tile for interface design, coding work, or portfolio storytelling." },
-        brand: { title: "Brand Concept", type: "Creative Direction", description: "Use this space for visual branding, campaign concepts, or curated image-based work with a short summary.", cardDescription: "An adaptable card for a visual identity or campaign proposal with room to grow." },
-        archive: { title: "Personal Archive", type: "Photo Narrative", description: "A flexible archive slot for future uploads, lookbooks, travel captures, or editorial photo sequences.", cardDescription: "A visual archive card for storytelling through selected moments and polished layouts." }
+        redbookMarketing: { title: "Xiaohongshu Marketing Account: Aichigua de Gungunjiang", type: "Content Marketing", description: "A Xiaohongshu marketing account focused on trending entertainment topics, account positioning, post rhythm, visual packaging, and audience engagement.", cardDescription: "A content operations project built around hot topics, account tone, and social media growth." },
+        aiShortDrama: { title: "Xiaohongshu AI Short Drama Account: Xiaoxiong Xiaoxiong Loves Learning", type: "AI Video Creation", description: "An AI short drama account exploring script planning, AI-generated visuals, short-form storytelling, and platform-oriented publishing.", cardDescription: "An AI content project combining short drama scripts, generated visuals, and account operation." },
+        metaverse: { title: "Metaverse Works", type: "Immersive Digital Experience", description: "Metaverse-oriented work involving virtual scenes, digital display logic, immersive interaction, and spatial presentation.", cardDescription: "Virtual-space work focused on immersive presentation and digital experience design." },
+        graphxr: { title: "GraphXR Works", type: "Knowledge Graph Visualization", description: "A GraphXR-based project for knowledge graph building, relationship mapping, and visual analysis of connected data.", cardDescription: "A data visualization project using GraphXR to present networks and relationships." },
+        invoiceBoard: { title: "Invoice Board Web App", type: "Web Development", description: "An online invoice and accounting web project that demonstrates practical web building, data entry flow, and lightweight management interface design.", cardDescription: "A live accounting web project with a direct online link.", url: "https://invoice-board.onrender.com" },
+        appBuilder: { title: "AppBuilder Works", type: "Application Prototyping", description: "Application-building practice completed with App Builder, covering product structure, functional flow, and no-code or low-code implementation.", cardDescription: "An application prototype project built through App Builder practice." },
+        powerbi: { title: "Power BI Works", type: "Business Intelligence", description: "Power BI dashboard work focused on metrics, data analysis, visual reporting, and business intelligence presentation.", cardDescription: "A BI visualization project built around dashboards, metrics, and insight presentation." },
+        dataLabeling: { title: "Data Labeling Works", type: "AI Data Preparation", description: "Data labeling practice covering dataset organization, annotation workflow, training-data preparation, and model-ready data processing.", cardDescription: "A data annotation project supporting AI model preparation and structured dataset work." }
       },
       zh: {
-        story: { title: "视觉叙事项目", type: "版式呈现", description: "这里是未来上传真实作品后的互动展示卡片。你替换图片与文字后，弹窗预览功能仍然可以直接使用。", cardDescription: "适合放置设计叙事类、个人表达类或视觉表达类项目。" },
-        web: { title: "网页设计案例", type: "互动体验", description: "这一卡片保留了同样的点击互动逻辑，后续可以直接替换为真实网站、活动页或展示项目。", cardDescription: "适合用于界面设计、前端实现或网页作品展示。" },
-        brand: { title: "品牌概念项目", type: "创意方向", description: "可用于展示品牌视觉、活动概念提案或图像策展类作品，并附上简要说明。", cardDescription: "适合展示品牌形象、视觉提案与创意概念内容。" },
-        archive: { title: "个人视觉档案", type: "影像叙事", description: "适合放入未来上传的摄影、旅行、生活记录或图文叙事类内容。", cardDescription: "适合承载旅行记录、生活片段与个人风格化内容。" }
+        redbookMarketing: { title: "小红书营销号：爱吃瓜的滚滚酱", type: "内容营销", description: "围绕热点内容与娱乐话题进行账号定位、内容策划、视觉包装和互动运营，体现社交媒体内容营销能力。", cardDescription: "围绕热点话题、账号人设与内容节奏运营的小红书营销项目。" },
+        aiShortDrama: { title: "小红书AI短剧账号：小熊小熊爱学习", type: "AI视频创作", description: "以 AI 工具辅助完成短剧账号内容创作，包含选题、脚本、画面生成、短视频叙事与账号发布节奏。", cardDescription: "将 AI 生成画面、短剧脚本与小红书账号运营结合的内容项目。" },
+        metaverse: { title: "元宇宙作品", type: "沉浸式数字体验", description: "围绕虚拟空间、数字展示、沉浸式体验与交互场景完成的元宇宙方向作品。", cardDescription: "聚焦虚拟空间、沉浸展示与数字体验设计的作品。" },
+        graphxr: { title: "GraphXR作品", type: "知识图谱可视化", description: "使用 GraphXR 进行知识图谱搭建、关系网络呈现与数据可视化分析，突出复杂信息的结构化表达。", cardDescription: "使用 GraphXR 展示关系网络、知识图谱和数据结构的可视化作品。" },
+        invoiceBoard: { title: "记账网页作品", type: "网页开发", description: "一个在线记账网页作品，体现网页搭建、数据录入流程、轻量管理界面与实际部署能力。", cardDescription: "可直接在线访问的记账网页作品。", url: "https://invoice-board.onrender.com" },
+        appBuilder: { title: "AppBuilder作品", type: "应用原型搭建", description: "基于 App Builder 完成的应用搭建实践，覆盖产品结构、功能流程与低代码应用实现。", cardDescription: "通过 App Builder 完成的应用搭建与功能原型实践。" },
+        powerbi: { title: "Power BI作品", type: "商业智能可视化", description: "使用 Power BI 制作数据看板与分析作品，呈现指标拆解、数据洞察与商业可视化表达。", cardDescription: "围绕数据看板、指标分析与商业洞察呈现的 Power BI 作品。" },
+        dataLabeling: { title: "数据打标签作品", type: "AI数据准备", description: "围绕数据标注、训练数据整理、样本分类与模型前置处理完成的实践作品。", cardDescription: "服务于 AI 模型训练前置流程的数据标注与整理作品。" }
       }
     };
 
@@ -1648,6 +1688,8 @@
         card.dataset.title = project.title;
         card.dataset.type = project.type;
         card.dataset.description = project.description;
+        if (project.url) card.dataset.url = project.url;
+        else delete card.dataset.url;
         card.querySelector("[data-project-title]").textContent = project.title;
         card.querySelector("[data-project-description]").textContent = project.cardDescription;
         card.querySelector("[data-project-cta]").textContent = translations[lang].projectCta;
@@ -1734,6 +1776,7 @@
       const questionInput = document.getElementById("boardQuestion");
       if (questionInput) questionInput.placeholder = t.boardPlaceholder;
       closeModal.textContent = t.close;
+      modalProjectLink.textContent = t.projectOpenLink;
       updatePortfolioCards(lang);
       updateIntroVisual(introIndex);
       renderMessages();
@@ -1832,6 +1875,7 @@
     const modalType = document.getElementById("modalType");
     const modalDescription = document.getElementById("modalDescription");
     const modalImage = document.getElementById("modalImage");
+    const modalProjectLink = document.getElementById("modalProjectLink");
     const closeModal = document.getElementById("closeModal");
     const sectionModal = document.getElementById("sectionModal");
     const sectionModalTitle = document.getElementById("sectionModalTitle");
@@ -1869,7 +1913,11 @@
       1: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23101624'/><stop offset='55%' stop-color='%23233963'/><stop offset='100%' stop-color='%23090d16'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m1)'/><circle cx='270' cy='200' r='180' fill='%23ffffff' opacity='0.12'/><rect x='460' y='170' width='520' height='110' rx='22' fill='%23ffffff' opacity='0.14'/><rect x='150' y='420' width='900' height='260' rx='34' fill='%23ffffff' opacity='0.08'/></svg>",
       2: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m2' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23181818'/><stop offset='55%' stop-color='%23393939'/><stop offset='100%' stop-color='%23090909'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m2)'/><rect x='120' y='120' width='960' height='660' rx='34' fill='%23ffffff' opacity='0.08'/><rect x='220' y='230' width='760' height='100' rx='20' fill='%23ffffff' opacity='0.16'/><rect x='220' y='400' width='520' height='40' rx='20' fill='%23ffffff' opacity='0.12'/></svg>",
       3: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m3' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236d8b8f'/><stop offset='55%' stop-color='%23bfd3d0'/><stop offset='100%' stop-color='%23516366'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m3)'/><circle cx='860' cy='200' r='180' fill='%23ffffff' opacity='0.22'/><rect x='120' y='110' width='360' height='660' rx='30' fill='%23ffffff' opacity='0.24'/><rect x='560' y='310' width='410' height='82' rx='18' fill='%23ffffff' opacity='0.18'/></svg>",
-      4: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m4)'/><path d='M0 640C170 580 300 580 430 646s310 92 456 20 232-76 314-52V900H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/></svg>"
+      4: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m4' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230b0f14'/><stop offset='55%' stop-color='%23213c59'/><stop offset='100%' stop-color='%23040a11'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m4)'/><path d='M0 640C170 580 300 580 430 646s310 92 456 20 232-76 314-52V900H0z' fill='%23ffffff' opacity='0.1'/><rect x='170' y='140' width='860' height='110' rx='24' fill='%23ffffff' opacity='0.12'/></svg>",
+      5: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m5' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%232e3138'/><stop offset='55%' stop-color='%23727a82'/><stop offset='100%' stop-color='%23080809'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m5)'/><rect x='130' y='130' width='940' height='620' rx='38' fill='%23ffffff' opacity='0.1'/><rect x='245' y='245' width='710' height='70' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='245' y='390' width='300' height='180' rx='24' fill='%23ffffff' opacity='0.14'/><rect x='590' y='390' width='365' height='180' rx='24' fill='%23ffffff' opacity='0.12'/></svg>",
+      6: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m6' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2331251a'/><stop offset='55%' stop-color='%23a8874e'/><stop offset='100%' stop-color='%23100d08'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m6)'/><rect x='210' y='120' width='330' height='660' rx='46' fill='%23ffffff' opacity='0.13'/><rect x='620' y='190' width='360' height='130' rx='26' fill='%23ffffff' opacity='0.15'/><rect x='620' y='390' width='250' height='58' rx='20' fill='%23ffffff' opacity='0.14'/><rect x='620' y='500' width='310' height='58' rx='20' fill='%23ffffff' opacity='0.1'/></svg>",
+      7: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m7' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23232112'/><stop offset='55%' stop-color='%23c19b37'/><stop offset='100%' stop-color='%230f0c06'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m7)'/><rect x='150' y='155' width='900' height='590' rx='34' fill='%23ffffff' opacity='0.09'/><rect x='260' y='470' width='95' height='170' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='430' y='355' width='95' height='285' rx='18' fill='%23ffffff' opacity='0.22'/><rect x='600' y='250' width='95' height='390' rx='18' fill='%23ffffff' opacity='0.18'/><circle cx='850' cy='390' r='125' fill='%23ffffff' opacity='0.14'/></svg>",
+      8: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'><defs><linearGradient id='m8' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%231d2733'/><stop offset='55%' stop-color='%235d89b5'/><stop offset='100%' stop-color='%23080b10'/></linearGradient></defs><rect width='1200' height='900' fill='url(%23m8)'/><rect x='160' y='170' width='880' height='560' rx='32' fill='%23ffffff' opacity='0.09'/><rect x='230' y='260' width='320' height='250' rx='28' fill='%23ffffff' opacity='0.14'/><path d='M230 570h320' stroke='%23ffffff' stroke-opacity='0.22' stroke-width='18'/><rect x='640' y='280' width='300' height='52' rx='18' fill='%23ffffff' opacity='0.18'/><rect x='640' y='395' width='230' height='52' rx='18' fill='%23ffffff' opacity='0.13'/><rect x='640' y='510' width='270' height='52' rx='18' fill='%23ffffff' opacity='0.1'/></svg>"
     };
 
     const openModal = (card) => {
@@ -1877,6 +1925,13 @@
       modalType.textContent = card.dataset.type;
       modalDescription.textContent = card.dataset.description;
       modalImage.innerHTML = `<img alt="${card.dataset.title}" src="${modalVisuals[card.dataset.image]}" />`;
+      if (card.dataset.url) {
+        modalProjectLink.href = card.dataset.url;
+        modalProjectLink.style.display = "";
+      } else {
+        modalProjectLink.removeAttribute("href");
+        modalProjectLink.style.display = "none";
+      }
       modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
     };
