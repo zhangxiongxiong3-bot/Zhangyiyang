@@ -496,6 +496,19 @@
     .portfolio-thumb { aspect-ratio: 16 / 11; border-radius: 18px; }
     .portfolio-card h3 { margin: 0; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
     .portfolio-card small { color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; }
+    .portfolio-card.document-card {
+      min-height: 220px;
+      align-content: center;
+    }
+    .portfolio-card.document-card h3 {
+      font-family: var(--title-font);
+      font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+    }
+    .portfolio-card.document-card p {
+      font-size: 1rem;
+    }
     .social-list { display: grid; gap: 12px; margin-top: 14px; }
     .social-item {
       color: var(--text);
@@ -902,6 +915,13 @@
       overflow-y: auto;
       padding-right: 4px;
     }
+    .modal-panel:has(.modal-image:empty) {
+      grid-template-columns: 1fr;
+      width: min(620px, 100%);
+    }
+    .modal-image:empty {
+      display: none;
+    }
     .modal-actions { display: flex; gap: 10px; padding-top: 6px; }
     .modal-actions button,
     .modal-link {
@@ -1253,23 +1273,20 @@
               <p data-project-description>用 AI 生成短剧内容，探索脚本、画面与账号运营结合。</p>
               <small data-project-cta>点击查看</small>
             </article>
-            <article class="portfolio-card" data-project="metaverse" data-image="3" data-url="./image/portfolio/docs/metaverse-project.docx" data-link-label="打开文档">
-              <div class="portfolio-thumb"><img alt="Metaverse work visual" src="./image/portfolio/work-03.jpg" /></div>
+            <article class="portfolio-card document-card" data-project="metaverse" data-image="3" data-url="./image/portfolio/docs/metaverse-project.docx" data-link-label="打开文档">
               <h3 data-project-title>元宇宙作品</h3>
-              <p data-project-description>围绕虚拟空间、沉浸式展示与数字体验完成的元宇宙作品。</p>
-              <small data-project-cta>点击查看</small>
+              <p data-project-description>打开元宇宙项目 Word 文档。</p>
+              <small data-project-cta>打开文档</small>
             </article>
-            <article class="portfolio-card" data-project="graphxr" data-image="4">
-              <div class="portfolio-thumb"><img alt="GraphXR work visual" src="./image/portfolio/work-04.jpg" /></div>
+            <article class="portfolio-card document-card" data-project="graphxr" data-image="4" data-url="./image/portfolio/docs/graphxr-project.docx" data-link-label="打开文档">
               <h3 data-project-title>GraphXR作品</h3>
-              <p data-project-description>使用 GraphXR 进行知识图谱、关系网络与数据可视化表达。</p>
-              <small data-project-cta>点击查看</small>
+              <p data-project-description>打开 GraphXR 项目 Word 文档。</p>
+              <small data-project-cta>打开文档</small>
             </article>
-            <article class="portfolio-card" data-project="invoiceBoard" data-image="5" data-url="https://invoice-board.onrender.com">
-              <div class="portfolio-thumb"><img alt="Invoice board web work visual" src="./image/portfolio/work-05.jpg" /></div>
+            <article class="portfolio-card document-card" data-project="invoiceBoard" data-image="5" data-url="https://invoice-board.onrender.com" data-link-label="打开网页">
               <h3 data-project-title>记账网页作品</h3>
-              <p data-project-description>一个在线记账网页作品，可通过链接直接访问。</p>
-              <small data-project-cta>点击查看</small>
+              <p data-project-description>打开记账网页链接。</p>
+              <small data-project-cta>打开网页</small>
             </article>
             <article class="portfolio-card" data-project="appBuilder" data-image="6">
               <div class="portfolio-thumb"><img alt="AppBuilder work visual" src="./image/portfolio/work-06.jpg" /></div>
@@ -1628,9 +1645,9 @@
       en: {
         redbookMarketing: { title: "Xiaohongshu Marketing Account: Aichigua de Gungunjiang", type: "Content Marketing", description: "A Xiaohongshu marketing account focused on trending entertainment topics, account positioning, post rhythm, visual packaging, and audience engagement.", cardDescription: "A content operations project built around hot topics, account tone, and social media growth." },
         aiShortDrama: { title: "Xiaohongshu AI Short Drama Account: Xiaoxiong Xiaoxiong Loves Learning", type: "AI Video Creation", description: "An AI short drama account exploring script planning, AI-generated visuals, short-form storytelling, and platform-oriented publishing.", cardDescription: "An AI content project combining short drama scripts, generated visuals, and account operation." },
-        metaverse: { title: "Metaverse Works", type: "Immersive Digital Experience", description: "Metaverse-oriented work involving virtual scenes, digital display logic, immersive interaction, and spatial presentation.", cardDescription: "Virtual-space work focused on immersive presentation and digital experience design.", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "Open Document" },
-        graphxr: { title: "GraphXR Works", type: "Knowledge Graph Visualization", description: "A GraphXR-based project for knowledge graph building, relationship mapping, and visual analysis of connected data.", cardDescription: "A data visualization project using GraphXR to present networks and relationships." },
-        invoiceBoard: { title: "Invoice Board Web App", type: "Web Development", description: "An online invoice and accounting web project that demonstrates practical web building, data entry flow, and lightweight management interface design.", cardDescription: "A live accounting web project with a direct online link.", url: "https://invoice-board.onrender.com" },
+        metaverse: { title: "Metaverse Works", type: "Immersive Digital Experience", description: "Open the Metaverse project Word document.", cardDescription: "Open the Metaverse project Word document.", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "Open Document" },
+        graphxr: { title: "GraphXR Works", type: "Knowledge Graph Visualization", description: "Open the GraphXR project Word document.", cardDescription: "Open the GraphXR project Word document.", url: "./image/portfolio/docs/graphxr-project.docx", linkLabel: "Open Document" },
+        invoiceBoard: { title: "Invoice Board Web App", type: "Web Development", description: "Open the accounting web app link.", cardDescription: "Open the accounting web app link.", url: "https://invoice-board.onrender.com", linkLabel: "Open Website" },
         appBuilder: { title: "AppBuilder Works", type: "Application Prototyping", description: "Application-building practice completed with App Builder, covering product structure, functional flow, and no-code or low-code implementation.", cardDescription: "An application prototype project built through App Builder practice." },
         powerbi: { title: "Power BI Works", type: "Business Intelligence", description: "Power BI dashboard work focused on metrics, data analysis, visual reporting, and business intelligence presentation.", cardDescription: "A BI visualization project built around dashboards, metrics, and insight presentation." },
         dataLabeling: { title: "Data Labeling Works", type: "AI Data Preparation", description: "Data labeling practice covering dataset organization, annotation workflow, training-data preparation, and model-ready data processing.", cardDescription: "A data annotation project supporting AI model preparation and structured dataset work." }
@@ -1638,9 +1655,9 @@
       zh: {
         redbookMarketing: { title: "小红书营销号：爱吃瓜的滚滚酱", type: "内容营销", description: "围绕热点内容与娱乐话题进行账号定位（左侧视频为此账号的视频之一）", cardDescription: "围绕热点话题、账号人设与内容节奏运营的小红书营销项目。" },
         aiShortDrama: { title: "小红书AI短剧账号：小熊小熊爱学习", type: "AI视频创作", description: "以 AI 工具辅助完成短剧账号内容创作，包含选题、脚本、画面生成、短视频叙事与账号发布节奏。", cardDescription: "将 AI 生成画面、短剧脚本与小红书账号运营结合的内容项目。" },
-        metaverse: { title: "元宇宙作品", type: "沉浸式数字体验", description: "围绕虚拟空间、数字展示、沉浸式体验与交互场景完成的元宇宙方向作品。", cardDescription: "聚焦虚拟空间、沉浸展示与数字体验设计的作品。", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "打开文档" },
-        graphxr: { title: "GraphXR作品", type: "知识图谱可视化", description: "使用 GraphXR 进行知识图谱搭建、关系网络呈现与数据可视化分析，突出复杂信息的结构化表达。", cardDescription: "使用 GraphXR 展示关系网络、知识图谱和数据结构的可视化作品。" },
-        invoiceBoard: { title: "记账网页作品", type: "网页开发", description: "一个在线记账网页作品，体现网页搭建、数据录入流程、轻量管理界面与实际部署能力。", cardDescription: "可直接在线访问的记账网页作品。", url: "https://invoice-board.onrender.com" },
+        metaverse: { title: "元宇宙作品", type: "沉浸式数字体验", description: "打开元宇宙项目 Word 文档。", cardDescription: "打开元宇宙项目 Word 文档。", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "打开文档" },
+        graphxr: { title: "GraphXR作品", type: "知识图谱可视化", description: "打开 GraphXR 项目 Word 文档。", cardDescription: "打开 GraphXR 项目 Word 文档。", url: "./image/portfolio/docs/graphxr-project.docx", linkLabel: "打开文档" },
+        invoiceBoard: { title: "记账网页作品", type: "网页开发", description: "打开记账网页链接。", cardDescription: "打开记账网页链接。", url: "https://invoice-board.onrender.com", linkLabel: "打开网页" },
         appBuilder: { title: "AppBuilder作品", type: "应用原型搭建", description: "基于 App Builder 完成的应用搭建实践，覆盖产品结构、功能流程与低代码应用实现。", cardDescription: "通过 App Builder 完成的应用搭建与功能原型实践。" },
         powerbi: { title: "Power BI作品", type: "商业智能可视化", description: "使用 Power BI 制作数据看板与分析作品，呈现指标拆解、数据洞察与商业可视化表达。", cardDescription: "围绕数据看板、指标分析与商业洞察呈现的 Power BI 作品。" },
         dataLabeling: { title: "数据打标签作品", type: "AI数据准备", description: "围绕数据标注、训练数据整理、样本分类与模型前置处理完成的实践作品。", cardDescription: "服务于 AI 模型训练前置流程的数据标注与整理作品。" }
@@ -1959,7 +1976,9 @@
       modalTitle.textContent = card.dataset.title;
       modalType.textContent = card.dataset.type;
       modalDescription.textContent = card.dataset.description;
-      if (card.dataset.video) {
+      if (card.classList.contains("document-card")) {
+        modalImage.innerHTML = "";
+      } else if (card.dataset.video) {
         const poster = card.querySelector(".portfolio-thumb video")?.getAttribute("poster") || "";
         modalImage.innerHTML = `<video controls playsinline preload="metadata" poster="${poster}"><source src="${card.dataset.video}" type="video/mp4" /></video>`;
       } else {
