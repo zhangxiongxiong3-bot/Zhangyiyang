@@ -311,6 +311,7 @@
     .sticky-photo img,
     .intro-visual img,
     .portfolio-thumb img,
+    .honor-photo img,
     .modal-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .profile-meta,
     .hero-inner,
@@ -689,19 +690,59 @@
       font: inherit;
       cursor: pointer;
     }
-    .honor-tiles {
+    .honor-wall {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
       margin-top: 20px;
     }
-    .honor-tile {
-      padding: 18px;
-      border-radius: 20px;
+    .honor-photo {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      line-height: 1.7;
+      box-shadow: 0 18px 38px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.03);
+      transition: transform 0.35s ease, border-color 0.35s ease, filter 0.35s ease;
+    }
+    .honor-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.16));
+      pointer-events: none;
+    }
+    .honor-photo:nth-child(3n + 2) {
+      transform: translateY(12px);
+    }
+    .honor-photo:nth-child(4n) {
+      transform: translateY(-8px);
+    }
+    .honor-photo:hover {
+      transform: translateY(-6px) scale(1.015);
+      border-color: rgba(255,255,255,0.2);
+      filter: brightness(1.08);
+    }
+    .honor-modal-list {
+      padding-left: 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      list-style: none;
+    }
+    .honor-modal-list li {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+    .honor-modal-list img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .section-modal {
       position: fixed;
@@ -935,8 +976,9 @@
     @media (max-width: 820px) {
       .section-grid,
       .modal-panel,
-      .portfolio-grid,
-      .honor-tiles { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .honor-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .honor-modal-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .panel-ink {
         writing-mode: horizontal-tb;
         font-size: clamp(3.4rem, 14vw, 5rem);
@@ -951,6 +993,11 @@
       .intro-visual { min-height: 380px; }
       .section-copy h2 {
         max-width: none;
+      }
+      .honor-wall,
+      .honor-modal-list { grid-template-columns: 1fr; }
+      .honor-photo:nth-child(n) {
+        transform: none;
       }
     }
     .music-player {
@@ -1144,22 +1191,25 @@
           <div class="panel-top">
             <div class="section-copy">
               <span class="eyebrow" id="honorsEyebrow">Honors</span>
-              <h2 id="honorsTitle">Recognition & Highlights</h2>
-              <p id="honorsDescription">This block stays simple so future achievements remain the focus.</p>
-              <ul class="honor-list">
-                <li id="honor1">Scholarships, awards, or academic recognition can be listed here.</li>
-                <li id="honor2">Competition results and selected achievements can be updated at any time.</li>
-                <li id="honor3">Featured experiences, exchange programs, or invited activities can also live here.</li>
-              </ul>
+              <h2 id="honorsTitle">Award Wall</h2>
             </div>
-            <div class="honor-tiles">
-              <div class="honor-tile" id="honorTile1">Scholarships and academic distinctions can appear as clear, elegant cards.</div>
-              <div class="honor-tile" id="honorTile2">Competitions, public recognition, and selected milestones can stay easy to scan.</div>
-              <div class="honor-tile" id="honorTile3">The composition stays minimal so every future achievement feels important.</div>
+            <div class="honor-wall" aria-label="Honor photo wall">
+              <figure class="honor-photo"><img alt="Honor photo 01" src="./image/awards/award-01.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 02" src="./image/awards/award-02.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 03" src="./image/awards/award-03.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 04" src="./image/awards/award-04.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 05" src="./image/awards/award-05.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 06" src="./image/awards/award-06.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 07" src="./image/awards/award-07.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 08" src="./image/awards/award-08.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 09" src="./image/awards/award-09.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 10" src="./image/awards/award-10.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 11" src="./image/awards/award-11.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 12" src="./image/awards/award-12.jpg" /></figure>
             </div>
           </div>
           <div class="panel-actions">
-            <span class="panel-note" id="honorsPanelNote">Tap to explore the full honor archive</span>
+            <span class="panel-note" id="honorsPanelNote">Tap to view the 12-photo award wall</span>
             <button class="panel-link" id="honorsPanelLink" type="button">Open Section</button>
           </div>
         </section>
@@ -1324,7 +1374,7 @@
         panelNotes: {
           introduction: "Click the panel to open the full story",
           portfolio: "Each project card remains independently clickable",
-          honors: "Tap to explore the full honor archive",
+          honors: "Tap to view the 12-photo award wall",
           social: "Click for contact highlights and connection details"
         },
         sectionCta: "Open Section",
@@ -1333,18 +1383,8 @@
         portfolioTitle: "Interactive Project Gallery",
         portfolioDescription: "This section is ready for your uploaded works. Each card can be clicked to open a larger preview and project details, so the gallery feels interactive instead of static.",
         honorsEyebrow: "Honors",
-        honorsTitle: "Recognition & Highlights",
-        honorsDescription: "This block stays simple so future achievements remain the focus.",
-        honors: [
-          "Scholarships, awards, or academic recognition can be listed here.",
-          "Competition results and selected achievements can be updated at any time.",
-          "Featured experiences, exchange programs, or invited activities can also live here."
-        ],
-        honorTiles: [
-          "Scholarships and academic distinctions can appear as clear, elegant cards.",
-          "Competitions, public recognition, and selected milestones can stay easy to scan.",
-          "The composition stays minimal so every future achievement feels important."
-        ],
+        honorsTitle: "Award Wall",
+        honorsDescription: "",
         socialEyebrow: "Social",
         socialTitle: "Contact Info",
         socialDescription: "Feel free to reach out via WeChat, email, or phone.",
@@ -1418,7 +1458,7 @@
         panelNotes: {
           introduction: "点击这一画面，查看更完整的个人故事",
           portfolio: "每个作品卡片都可以独立点击查看",
-          honors: "点击展开完整的荣誉与高光记录",
+          honors: "点击查看 12 张荣誉照片",
           social: "点击查看联系方式与社交连接信息"
         },
         sectionCta: "查看内容",
@@ -1427,18 +1467,8 @@
         portfolioTitle: "可互动浏览的作品画廊",
         portfolioDescription: "这一部分已经为你的作品上传预留好结构。每个卡片都可以点击查看更大的预览与项目说明，让作品集呈现更有互动感。",
         honorsEyebrow: "所获荣誉",
-        honorsTitle: "荣誉与高光时刻",
-        honorsDescription: "这一块保持简洁克制，方便将来的奖项与成绩成为视觉重点。",
-        honors: [
-          "可用于展示奖学金、学业荣誉与综合表现奖励。",
-          "可随时补充竞赛成绩、项目成果与阶段性成就。",
-          "也适合放入交换经历、特色活动与受邀经历等内容。"
-        ],
-        honorTiles: [
-          "奖学金、学业荣誉和综合表现可以以干净利落的卡片形式展示。",
-          "竞赛成果、公开认可与重要节点可以清晰排列，一眼就能读懂。",
-          "整体构图保持克制，让未来每一项荣誉都更有分量。"
-        ],
+        honorsTitle: "奖项墙",
+        honorsDescription: "",
         socialEyebrow: "社交媒体",
         socialTitle: "联系方式",
         socialDescription: "通过微信、邮箱或电话与我联系。",
@@ -1624,13 +1654,6 @@
       setText("portfolioDescription", t.portfolioDescription);
       setText("honorsEyebrow", t.honorsEyebrow);
       setText("honorsTitle", t.honorsTitle);
-      setText("honorsDescription", t.honorsDescription);
-      setText("honor1", t.honors[0]);
-      setText("honor2", t.honors[1]);
-      setText("honor3", t.honors[2]);
-      setText("honorTile1", t.honorTiles[0]);
-      setText("honorTile2", t.honorTiles[1]);
-      setText("honorTile3", t.honorTiles[2]);
       setText("socialEyebrow", t.socialEyebrow);
       setText("socialTitle", t.socialTitle);
       setText("socialDescription", t.socialDescription);
@@ -1824,7 +1847,7 @@
         return {
           title: t.honorsTitle,
           description: t.honorsDescription,
-          items: t.honors
+          items: []
         };
       }
       return {
@@ -1848,10 +1871,18 @@
       const detail = getSectionDetail(section, currentLang);
       sectionModalTitle.textContent = detail.title;
       sectionModalDescription.textContent = detail.description;
-      sectionModalList.innerHTML = detail.items.map((item) => {
-        if (typeof item === "string") return `<li>${item}</li>`;
-        return `<li>${item.label}：${item.value} <button class="copy-btn" data-copy="${item.value}" data-copied="${t.copiedLabel}" type="button">${t.copyLabel}</button></li>`;
-      }).join("");
+      sectionModalDescription.style.display = detail.description ? "" : "none";
+      sectionModalList.classList.toggle("honor-modal-list", section === "honors");
+      if (section === "honors") {
+        sectionModalList.innerHTML = Array.from(document.querySelectorAll(".honor-wall img")).map((img) => {
+          return `<li><img alt="${img.alt}" src="${img.getAttribute("src")}" /></li>`;
+        }).join("");
+      } else {
+        sectionModalList.innerHTML = detail.items.map((item) => {
+          if (typeof item === "string") return `<li>${item}</li>`;
+          return `<li>${item.label}：${item.value} <button class="copy-btn" data-copy="${item.value}" data-copied="${t.copiedLabel}" type="button">${t.copyLabel}</button></li>`;
+        }).join("");
+      }
       registerCopyButtons(sectionModalList);
       sectionModal.classList.add("open");
       sectionModal.setAttribute("aria-hidden", "false");
