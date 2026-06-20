@@ -1262,7 +1262,7 @@
             <article class="portfolio-card" data-project="redbookMarketing" data-image="1" data-video="./image/portfolio/videos/gungunjiang.mp4">
               <div class="portfolio-thumb">
                 <video muted loop playsinline preload="none" poster="./image/portfolio/videos/imageportfoliowork-01.jpg">
-                  <source src="./image/portfolio/videos/gungunjiang.mp4" type="video/mp4" />
+                  <source data-src="./image/portfolio/videos/gungunjiang.mp4" type="video/mp4" />
                 </video>
               </div>
               <h3 data-project-title>小红书营销号：爱吃瓜的滚滚酱</h3>
@@ -1271,8 +1271,8 @@
             </article>
             <article class="portfolio-card" data-project="aiShortDrama" data-image="2" data-video="./image/portfolio/videos/xiaoxiong.mp4">
               <div class="portfolio-thumb">
-                <video muted loop playsinline preload="none">
-                  <source src="./image/portfolio/videos/xiaoxiong.mp4" type="video/mp4" />
+                <video muted loop playsinline preload="none" poster="./image/portfolio/videos/imageportfoliowork-01.jpg">
+                  <source data-src="./image/portfolio/videos/xiaoxiong.mp4" type="video/mp4" />
                 </video>
               </div>
               <h3 data-project-title>小红书AI短剧账号：小熊小熊爱学习</h3>
@@ -2137,6 +2137,25 @@
         boardModalList.innerHTML = "";
       }
     };
+    // Lazy-load videos: only set src when card enters viewport
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const video = entry.target.querySelector(".portfolio-thumb video");
+        if (!video) return;
+        const source = video.querySelector("source[data-src]");
+        if (source) {
+          source.src = source.dataset.src;
+          delete source.dataset.src;
+          video.load();
+        }
+        videoObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: "200px" });
+    document.querySelectorAll(".portfolio-card").forEach((card) => {
+      if (card.querySelector(".portfolio-thumb video")) videoObserver.observe(card);
+    });
+
     document.querySelectorAll(".portfolio-card").forEach((card) => {
       const previewVideo = card.querySelector(".portfolio-thumb video");
       if (previewVideo) {
