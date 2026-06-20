@@ -1,12 +1,23 @@
 from __future__ import annotations
 
+import gzip
+import io
 import json
+import mimetypes
 import traceback
 from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
+
+# Cache durations in seconds
+_CACHE_LONG = 31536000   # 1 year — images, videos, fonts
+_CACHE_SHORT = 3600      # 1 hour — HTML
+_COMPRESSIBLE = {
+    "text/html", "text/css", "text/javascript", "application/javascript",
+    "application/json", "image/svg+xml",
+}
 
 
 ROOT = Path(__file__).resolve().parent
@@ -54,6 +65,50 @@ class AppHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         super().end_headers()
+
+    def _cache_header(self) -> None:
+        path = urlparse(self.path).path
+        if path in ("/", "/index.html"):
+            self.send_header("Cache-Control", f"public, max-age={_CACHE_SHORT}")
+        else:
+            self.send_header("Cache-Control", f"public, max-age={_CACHE_LONG}, immutable")
+
+    def send_head(self):
+        path = urlparse(self.path).path
+        # Only handle static files here; API routes go through do_GET
+        if path.startswith("/api/"):
+            return None
+        file = self.translate_path(self.path)
+        f = None
+        try:
+            f = open(file, "rb")
+        except OSError:
+            self.send_error(HTTPStatus.NOT_FOUND)
+            return None
+
+        mime = mimetypes.guess_type(file)[0] or "application/octet-stream"
+        raw = f.read()
+        f.close()
+
+        # Gzip compress compressible types if client supports it
+        accept_enc = self.headers.get("Accept-Encoding", "")
+        use_gzip = "gzip" in accept_enc and mime in _COMPRESSIBLE
+        if use_gzip:
+            buf = io.BytesIO()
+            with gzip.GzipFile(fileobj=buf, mode="wb") as gz:
+                gz.write(raw)
+            body = buf.getvalue()
+        else:
+            body = raw
+
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", mime)
+        self.send_header("Content-Length", str(len(body)))
+        if use_gzip:
+            self.send_header("Content-Encoding", "gzip")
+        self._cache_header()
+        self.end_headers()
+        return io.BytesIO(body)
 
     def _send_json(self, payload: dict | list, status: HTTPStatus = HTTPStatus.OK) -> None:
         data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
