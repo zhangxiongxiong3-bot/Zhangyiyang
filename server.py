@@ -145,9 +145,11 @@ class AppHandler(SimpleHTTPRequestHandler):
 
 
 def main() -> None:
+    import os
     ensure_store()
-    server = ThreadingHTTPServer(("127.0.0.1", 8000), AppHandler)
-    print("Serving on http://127.0.0.1:8000")
+    port = int(os.environ.get("PORT", 8000))
+    server = ThreadingHTTPServer(("0.0.0.0", port), AppHandler)
+    print(f"Serving on http://0.0.0.0:{port}")
     server.serve_forever()
 
 
