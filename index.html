@@ -1148,10 +1148,10 @@
   </style>
 </head>
 <body>
-  <audio id="mainAudio" src="./蜻蜓格格 - 钢琴曲《安和桥》纯音乐.mp3" autoplay loop></audio>
+  <audio id="mainAudio" src="./蜻蜓格格 - 钢琴曲《安和桥》纯音乐.mp3" preload="none" loop></audio>
   <div class="grain" aria-hidden="true"></div>
   <div class="music-player" aria-live="polite">
-    <button class="vinyl" id="musicToggle" type="button" aria-label="Pause background music" style="--vinyl-image: url('./image/panda-vinyl.png');">
+    <button class="vinyl" id="musicToggle" type="button" aria-label="Play music" style="--vinyl-image: url('./image/panda-vinyl.png');">
       <span class="vinyl__rotor" aria-hidden="true">
         <span class="vinyl__grooves"></span>
         <span class="vinyl__label"></span>
@@ -1183,7 +1183,7 @@
         <section class="profile-card reveal">
           <span class="eyebrow" id="profileEyebrow">Photo 1</span>
           <div class="sticky-photo">
-            <img alt="Fixed portrait of Zhang Yiyang" src="./image/PHOTO-1.jpg" />
+            <img alt="Fixed portrait of Zhang Yiyang" src="./image/PHOTO-1.jpg" fetchpriority="high" decoding="async" />
           </div>
           <div class="profile-meta">
             <h1 id="profileName">Zhang<br />Yiyang</h1>
@@ -1218,13 +1218,13 @@
                 <div class="intro-progress" id="introProgress" aria-label="Introduction image controls"></div>
               </div>
               <div class="intro-visual" id="introVisual">
-                <img class="active" alt="Introduction image 1" data-caption="City Evening" src="./image/Personal%20Introduction/PHOTO-2.jpg" />
-                <img alt="Introduction image 2" data-caption="Travel Day" src="./image/Personal%20Introduction/PHOTO-3.jpg" />
-                <img alt="Introduction image 3" data-caption="Relaxed Weekend" src="./image/Personal%20Introduction/PHOTO-4.jpg" />
-                <img alt="Introduction image 4" data-caption="Cultural Moment" src="./image/Personal%20Introduction/PHOTO-5.jpg" />
-                <img alt="Introduction image 5" data-caption="Open Landscape" src="./image/Personal%20Introduction/PHOTO-6.jpg" />
-                <img alt="Introduction image 6" data-caption="Floral Scene" src="./image/Personal%20Introduction/PHOTO-7.jpg" />
-                <img alt="Introduction image 7" data-caption="Everyday Moment" src="./image/Personal%20Introduction/PHOTO-8.jpg" />
+                <img class="active" alt="Introduction image 1" data-caption="City Evening" src="./image/Personal%20Introduction/PHOTO-2.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 2" data-caption="Travel Day" src="./image/Personal%20Introduction/PHOTO-3.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 3" data-caption="Relaxed Weekend" src="./image/Personal%20Introduction/PHOTO-4.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 4" data-caption="Cultural Moment" src="./image/Personal%20Introduction/PHOTO-5.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 5" data-caption="Open Landscape" src="./image/Personal%20Introduction/PHOTO-6.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 6" data-caption="Floral Scene" src="./image/Personal%20Introduction/PHOTO-7.jpg" loading="lazy" decoding="async" />
+                <img alt="Introduction image 7" data-caption="Everyday Moment" src="./image/Personal%20Introduction/PHOTO-8.jpg" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>
@@ -1255,7 +1255,7 @@
             <div class="portfolio-grid" id="portfolioGrid">
             <article class="portfolio-card" data-project="redbookMarketing" data-image="1" data-video="./image/portfolio/videos/gungunjiang.mp4">
               <div class="portfolio-thumb">
-                <video muted loop playsinline preload="metadata" poster="./image/portfolio/work-01.jpg">
+                <video muted loop playsinline preload="none" poster="./image/portfolio/videos/imageportfoliowork-01.jpg">
                   <source src="./image/portfolio/videos/gungunjiang.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -1265,7 +1265,7 @@
             </article>
             <article class="portfolio-card" data-project="aiShortDrama" data-image="2" data-video="./image/portfolio/videos/xiaoxiong.mp4">
               <div class="portfolio-thumb">
-                <video muted loop playsinline preload="metadata" poster="./image/portfolio/work-02.jpg">
+                <video muted loop playsinline preload="none">
                   <source src="./image/portfolio/videos/xiaoxiong.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -1318,18 +1318,18 @@
               <h2 id="honorsTitle">Award Wall</h2>
             </div>
             <div class="honor-wall" aria-label="Honor photo wall">
-              <figure class="honor-photo"><img alt="Honor photo 01" src="./image/awards/award-01.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 02" src="./image/awards/award-02.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 03" src="./image/awards/award-03.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 04" src="./image/awards/award-04.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 05" src="./image/awards/award-05.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 06" src="./image/awards/award-06.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 07" src="./image/awards/award-07.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 08" src="./image/awards/award-08.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 09" src="./image/awards/award-09.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 10" src="./image/awards/award-10.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 11" src="./image/awards/award-11.jpg" /></figure>
-              <figure class="honor-photo"><img alt="Honor photo 12" src="./image/awards/award-12.jpg" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 01" src="./image/awards/award-01.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 02" src="./image/awards/award-02.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 03" src="./image/awards/award-03.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 04" src="./image/awards/award-04.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 05" src="./image/awards/award-05.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 06" src="./image/awards/award-06.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 07" src="./image/awards/award-07.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 08" src="./image/awards/award-08.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 09" src="./image/awards/award-09.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 10" src="./image/awards/award-10.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 11" src="./image/awards/award-11.jpg" loading="lazy" decoding="async" /></figure>
+              <figure class="honor-photo"><img alt="Honor photo 12" src="./image/awards/award-12.jpg" loading="lazy" decoding="async" /></figure>
             </div>
           </div>
           <div class="panel-actions">
@@ -1444,13 +1444,6 @@
         musicToggle.setAttribute("aria-label", playing ? "Pause music" : "Play music");
       };
 
-      const tryAutoplay = () => {
-        const attempt = mainAudio.play();
-        if (attempt && typeof attempt.catch === "function") {
-          attempt.catch(() => setMusicState(false));
-        }
-      };
-
       musicToggle.addEventListener("click", () => {
         if (mainAudio.paused) {
           mainAudio.play();
@@ -1461,7 +1454,6 @@
 
       mainAudio.addEventListener("play", () => setMusicState(true));
       mainAudio.addEventListener("pause", () => setMusicState(false));
-      tryAutoplay();
     }
     registerCopyButtons();
 
@@ -1640,8 +1632,8 @@
 
     const projectTranslations = {
       en: {
-        redbookMarketing: { title: "Xiaohongshu Marketing Account: Aichigua de Gungunjiang", type: "Content Marketing", description: "A Xiaohongshu marketing account focused on trending entertainment topics, account positioning, post rhythm, visual packaging, and audience engagement.", cardDescription: "A content operations project built around hot topics, account tone, and social media growth." },
-        aiShortDrama: { title: "Xiaohongshu AI Short Drama Account: Xiaoxiong Xiaoxiong Loves Learning", type: "AI Video Creation", description: "An AI short drama account exploring script planning, AI-generated visuals, short-form storytelling, and platform-oriented publishing.", cardDescription: "An AI content project combining short drama scripts, generated visuals, and account operation." },
+        redbookMarketing: { title: "Xiaohongshu Marketing Account: Aichigua de Gungunjiang", type: "Content Marketing", description: "A Xiaohongshu marketing account focused on trending entertainment topics, account positioning, post rhythm, visual packaging, and audience engagement.", cardDescription: "A content operations project built around hot topics, account tone, and social media growth.", url: "https://xhslink.com/m/1Q00HdlFkU0", linkLabel: "Visit Account" },
+        aiShortDrama: { title: "Xiaohongshu AI Short Drama Account: Xiaoxiong Xiaoxiong Loves Learning", type: "AI Video Creation", description: "An AI short drama account exploring script planning, AI-generated visuals, short-form storytelling, and platform-oriented publishing.", cardDescription: "An AI content project combining short drama scripts, generated visuals, and account operation.", url: "https://xhslink.com/m/2fk5OUTouu6", linkLabel: "Visit Account" },
         metaverse: { title: "Metaverse Works", type: "Immersive Digital Experience", description: "Open the Metaverse project Word document.", cardDescription: "Open the Metaverse project Word document.", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "Open Document" },
         graphxr: { title: "GraphXR Works", type: "Knowledge Graph Visualization", description: "Open the GraphXR project Word document.", cardDescription: "Open the GraphXR project Word document.", url: "./image/portfolio/docs/graphxr-project.docx", linkLabel: "Open Document" },
         invoiceBoard: { title: "Invoice Board Web App", type: "Web Development", description: "Open the accounting web app link.", cardDescription: "Open the accounting web app link.", url: "https://invoice-board.onrender.com", linkLabel: "Open Website" },
@@ -1650,8 +1642,8 @@
         dataLabeling: { title: "Data Labeling Works", type: "AI Data Preparation", description: "Open the data labeling project Word document.", cardDescription: "Open the data labeling project Word document.", url: "./image/portfolio/docs/data-labeling-project.docx", linkLabel: "Open Document" }
       },
       zh: {
-        redbookMarketing: { title: "小红书营销号：爱吃瓜的滚滚酱", type: "内容营销", description: "围绕热点内容与娱乐话题进行账号定位（左侧视频为此账号的视频之一）", cardDescription: "围绕热点话题、账号人设与内容节奏运营的小红书营销项目。" },
-        aiShortDrama: { title: "小红书AI短剧账号：小熊小熊爱学习", type: "AI视频创作", description: "以 AI 工具辅助完成短剧账号内容创作，包含选题、脚本、画面生成、短视频叙事与账号发布节奏。", cardDescription: "将 AI 生成画面、短剧脚本与小红书账号运营结合的内容项目。" },
+        redbookMarketing: { title: "小红书营销号：爱吃瓜的滚滚酱", type: "内容营销", description: "围绕热点内容与娱乐话题进行账号定位（左侧视频为此账号的视频之一）", cardDescription: "围绕热点话题、账号人设与内容节奏运营的小红书营销项目。", url: "https://xhslink.com/m/1Q00HdlFkU0", linkLabel: "访问账号" },
+        aiShortDrama: { title: "小红书AI短剧账号：小熊小熊爱学习", type: "AI视频创作", description: "以 AI 工具辅助完成短剧账号内容创作，包含选题、脚本、画面生成、短视频叙事与账号发布节奏。", cardDescription: "将 AI 生成画面、短剧脚本与小红书账号运营结合的内容项目。", url: "https://xhslink.com/m/2fk5OUTouu6", linkLabel: "访问账号" },
         metaverse: { title: "元宇宙作品", type: "沉浸式数字体验", description: "打开元宇宙项目 Word 文档。", cardDescription: "打开元宇宙项目 Word 文档。", url: "./image/portfolio/docs/metaverse-project.docx", linkLabel: "打开文档" },
         graphxr: { title: "GraphXR作品", type: "知识图谱可视化", description: "打开 GraphXR 项目 Word 文档。", cardDescription: "打开 GraphXR 项目 Word 文档。", url: "./image/portfolio/docs/graphxr-project.docx", linkLabel: "打开文档" },
         invoiceBoard: { title: "记账网页作品", type: "网页开发", description: "打开记账网页链接。", cardDescription: "打开记账网页链接。", url: "https://invoice-board.onrender.com", linkLabel: "打开网页" },
